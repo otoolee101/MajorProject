@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block title %}
+Admin
+{% endblock %}
+{% block content %}
+<div class="edit_user">
+    <form method='post' action='/edit_user/{{admin.user_id}}'>
+            <label>Username:</label>
+            <br>
+                <input type='text' name='username' size="100" required class='form-control' value='{{admin.username}}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">
+            <p></p>
+            <label>Branch:</label>
+            <br>
+                <input type='text' name='registration' size="100" required class='form-control' value='{{admin.branch_name}}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">
+            <p></p>
+            <label>Role:</label>
+            <br>
+            <select name="role" id="role" class='form-control'>
+                <option value = "{{admin.role}}">{{admin.role}}</option>
+                <option value="admin">admin</option>
+                <option value="user">user</option>
+            </select>
+            <p></p>
+            <label>Authorised:</label>
+            <br>
+            <select name="authorised" id="authorised" class='form-control'>
+                <option value = "{{admin.authorised}}">{{admin.authorised}}</option>
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
+            </select>
+            <p></p>
+            <input type='submit' value='Edit' class='btn btn-primary'>
+    </form>
+{% endblock %}

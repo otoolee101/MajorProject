@@ -1,0 +1,117 @@
+2024-04-21 15:16:07 - ERROR - Exception on /edit_asset/3 [POST]
+Traceback (most recent call last):
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\admin\routes.py", line 59, in edit_asset
+    return redirect(url_for('admin.maintain_asset'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\helpers.py", line 220, in url_for
+    return current_app.url_for(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 1074, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 1063, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\werkzeug\routing\map.py", line 926, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'admin.maintain_asset'. Did you mean 'admin.maintain_assets' instead?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 1463, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 872, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\admin\routes.py", line 63, in edit_asset
+    return redirect(url_for('admin.maintain_asset', edit=edit))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\helpers.py", line 220, in url_for
+    return current_app.url_for(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 1074, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 1063, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\werkzeug\routing\map.py", line 926, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'admin.maintain_asset' with values ['edit']. Did you mean 'admin.maintain_assets' instead?
+2024-04-21 17:52:28 - ERROR - Exception on /register/ [POST]
+Traceback (most recent call last):
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 1463, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 872, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\user\routes.py", line 78, in register
+    new_user = User(username=form.username.data, branch = form.branch.data, password=hashed_password)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 4, in __init__
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 564, in _initialize_instance
+    with util.safe_reraise():
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 562, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\decl_base.py", line 2139, in _declarative_constructor
+    raise TypeError(
+TypeError: 'branch' is an invalid keyword argument for User
+2024-04-21 17:54:50 - INFO - Username: eotoole successfully created an account
+2024-04-21 17:54:56 - ERROR - Error during login: 'Flask' object has no attribute 'login_manager'
+Traceback (most recent call last):
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\user\routes.py", line 23, in login
+    reset_login_attempts(user)
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\user\routes.py", line 69, in reset_login_attempts
+    login_user(user)
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask_login\utils.py", line 183, in login_user
+    user_id = getattr(user, current_app.login_manager.id_attribute)()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Flask' object has no attribute 'login_manager'
+2024-04-21 17:55:10 - WARNING - Username: eotoole has a failed login attempt
+2024-04-21 17:55:42 - ERROR - Error during login: 'Flask' object has no attribute 'login_manager'
+Traceback (most recent call last):
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\user\routes.py", line 23, in login
+    reset_login_attempts(user)
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\user\routes.py", line 69, in reset_login_attempts
+    login_user(user)
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask_login\utils.py", line 183, in login_user
+    user_id = getattr(user, current_app.login_manager.id_attribute)()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Flask' object has no attribute 'login_manager'
+2024-04-21 17:56:54 - ERROR - Error during login: No `id` attribute - override `get_id`
+Traceback (most recent call last):
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\user\routes.py", line 23, in login
+    reset_login_attempts(user)
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\user\routes.py", line 69, in reset_login_attempts
+    login_user(user)
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask_login\utils.py", line 183, in login_user
+    user_id = getattr(user, current_app.login_manager.id_attribute)()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask_login\mixins.py", line 27, in get_id
+    raise NotImplementedError("No `id` attribute - override `get_id`") from None
+NotImplementedError: No `id` attribute - override `get_id`
+2024-04-21 18:01:55 - INFO - Username: eotoole attempted to log in but not yet authorised
+2024-04-21 18:04:40 - INFO - Username: admin logged in successfully
+2024-04-21 18:06:23 - INFO - Username: admin logged in successfully
+2024-04-21 18:06:26 - INFO - Username: admin logged out
+2024-04-21 18:09:08 - INFO - Username: admin logged in successfully
+2024-04-21 18:10:25 - INFO - Username: admin logged out
+2024-04-21 18:13:26 - INFO - Username: admin logged in successfully
+2024-04-21 18:17:37 - INFO - Username: admin logged in successfully

@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block title %}
+AssetHub
+{% endblock %}
+{% block content %}
+Welcome to AssetHub<br>
+<td><a href='{{url_for("main.borrow_asset")}}' class='btn btn-primary'>Borrow Asset</a></td>
+<td><a href='{{url_for("main.return_asset")}}' class='btn btn-primary'>Return Asset</a></td>
+{% endblock %}

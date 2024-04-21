@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}
+Edit Asset
+{% endblock %}
+{% block content %}
+<div class="edit_asset">
+    <form method='post' action='/edit_asset/{{edit.asset_id}}' >
+            <label>Asset Name:</label>
+            <br>
+            <input type='text' name='asset_name' size="10" required value='{{edit.asset_name}}' class='form-control'>
+            <label>Asset Description:</label>
+            <br>
+            <input type='text' name='asset_description' size="10"  value='{{edit.asset_description}}'class='form-control'>
+            <label>Asset Keywords:</label>
+            <br>
+            <input type='text' name='keyword' size="10" required value='{{edit.keyword}}' class='form-control'>
+            <p></p>
+            <label>Available</label>
+            <br>
+            <select name="available" id="available" class='form-control'>
+                <option value='{{edit.available}}'>{{edit.available}}</option>
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
+            </select>
+            <p></p>
+            <input type='submit' value='Update' class='btn btn-primary'>
+            <input type="reset" value="Reset">
+    </form>
+</div>
+{% endblock %}

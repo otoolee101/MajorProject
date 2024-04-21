@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %}
+Maintain Products
+{% endblock %}
+{% block content %}
+<table class="table table-hover">
+    <thead class="active tables">
+      <th>ID</th>
+      <th>Asset Name</th>
+      <th>Asset Description</th>
+      <th>Keywords</th>
+    </thead>
+    <tbody>
+      {% for asset in asset %}
+      <tr>
+        <td>{{asset.asset_id}}</td>
+        <td>{{asset.asset_name}}</td>
+        <td>{{asset.asset_description}}</td>
+        <td>{{asset.keyword}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

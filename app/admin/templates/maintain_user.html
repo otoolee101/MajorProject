@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}
+Admin
+{% endblock %}
+{% block content %}
+<p>Existing user are below. If you need to change a user role please press edit.</p>
+<table class="table table-hover">
+  <thead class="tables">
+        <th>ID</th>
+        <th>Username</th>
+        <th>Branch</th>
+        <th>Password</th>
+        <th>Role</th>
+        <th>Authorised</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </thead>
+    <tbody>
+     {% for admin in admin %}
+      <tr>
+        <td>{{admin.user_id}}</td>
+        <td>{{admin.username}}</td>
+        <td>{{admin.branch_name}}</td>
+        <td>{{admin.password}}</td>
+        <td>{{admin.role}}</td>
+        <td>{{admin.authorised}}</td>
+        <td><a href='{{url_for("admin.edit_user", user_id=admin.user_id)}}' class='btn btn-primary'>Edit</a></td>
+        <td>
+          <form method="POST" action="/delete_user/">
+            <input type="hidden" value="{{admin.user_id}}" name="user_id" >
+            <input type="submit" class='btn btn-primary' value="Delete" onclick='return confirm("Are you sure you want to delete this user?")'>
+          </form>
+         </td>
+      </tr>
+     {%endfor%}
+    </tbody>
+  </table>
+{% endblock %}

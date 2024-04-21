@@ -1,0 +1,95 @@
+/*formating the main text of the web pages*/
+.body-content {
+    padding: 5px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(0, 0, 0);
+}
+
+/*formating the heading into the centre of the page and changing colour */
+.heading {
+        display:block;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: rgb(85, 99, 112);
+        font-family:Arial, Helvetica, sans-serif
+}
+
+/*formatting the nav bar*/ 
+.navbar {
+    background-color: rgb(85, 99, 112);
+    font-size: 1.2em;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: white;
+    padding: 8px 30px 2px 4px;   
+}
+
+/*formatting options on the the nav bar*/ 
+.navbar-item {
+    padding: 8px;
+    margin: 0 10px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+  }
+
+  /*format the dropdown option for account*/ 
+.dropdown-content {
+display: none;
+position: absolute;
+background-color:white;
+min-width: 160px;
+box-shadow: 0 8px 16px 0 rgba(11, 1, 1, 0.984);
+z-index: 1;
+color: white;
+}
+
+/*allows menu to appear when you hover over it*/
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/*added a down arrow to drop down*/ 
+.dropdown-arrow::after {
+content: '\25BC'; 
+margin-left: 5px;
+}
+
+/*change colour of items in dropdown*/ 
+.navbar-items{
+color: rgb(85, 99, 112);
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-content-submenu {
+    display:none; 
+    position: absolute;
+    right: 100%;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0 8px 16px 0 rgba(11, 1, 1, 0.984);
+    min-width: 160px;
+    background-color: white;
+    
+}
+
+.dropdown-submenu:hover .dropdown-content-submenu {
+    display: block;
+
+}
+
+.flash{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: black;
+    font-size:xx-small;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background-color: rgb(28, 162, 235);
+  }
+

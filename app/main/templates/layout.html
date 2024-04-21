@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Creating a boarder around the web page -->
+        <style>
+            body{
+                padding: 8px 5px 8px 5px;
+            }
+        </style>
+        <meta charset="utf-8" />
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
+    </head>
+
+    <body>
+        <!--Place holder for where flashed messages will appear when something is submitted, updated or errored. -->
+        <div class="flash">
+            {% for flash in get_flashed_messages() %}
+            <h1>{{ flash }}</h1>
+            {% endfor %}
+        </div>
+        <div class="heading">
+            <h1>AssetHub.</h1>  </div>
+
+        <div class="navbar">
+            <a  href="{{ url_for('main.home') }}" class="navbar-item">&nbsp;&#8962; Home</a>
+            <a  href="{{ url_for('main.cart') }}" class="navbar-item">&nbsp;&#128722; Cart</a>
+            <div class="dropdown">
+                <a class="navbar-item dropdown-arrow" >Account Options</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('main.order_history') }}" class="navbar-items" >Order History</a><br>
+                    <a href="{{ url_for('user.manage_account') }}" class="navbar-items" >Manage Account</a><br>
+                    <div class="dropdown-submenu">
+                        <a href="#" class="navbar-items dropdown-arrow">Admin</a>
+                        <div class="dropdown-content-submenu">
+                            <a  href="{{ url_for('admin.maintain_assets') }}" class="navbar-items">Maintain Assets</a><br>
+                            <a  href="{{ url_for('admin.maintain_user') }}" class="navbar-items">Maintain User</a><br>
+                            <a  href="{{ url_for('admin.logging_messages') }}" class="navbar-items">Logging messages</a><br>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('user.logout') }}"  class="navbar-items"  onclick='return confirm("Are you sure you want to log out?")'>Log Out</a><br>
+                </div>
+            </div>
+        </div>
+        
+        <div class="body-content">
+            {% block content %}
+            {% endblock %}
+            <hr/>
+            <footer>
+                <p>&copy; 2024</p><style>
+                
+                    </style>
+            </footer>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,78 @@
+2024-04-21 18:25:35 - ERROR - Exception on /register/ [POST]
+Traceback (most recent call last):
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 1463, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 872, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\user\routes.py", line 78, in register
+    new_user = User(username=form.username.data, branch_id = form.branch_name.data, password=hashed_password)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 4, in __init__
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 564, in _initialize_instance
+    with util.safe_reraise():
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 562, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\decl_base.py", line 2139, in _declarative_constructor
+    raise TypeError(
+TypeError: 'branch_id' is an invalid keyword argument for User
+2024-04-21 18:26:29 - INFO - Username: eotoole successfully created an account
+2024-04-21 18:26:35 - INFO - Username: eotoole attempted to log in but not yet authorised
+2024-04-21 18:26:40 - INFO - Username: admin logged in successfully
+2024-04-21 18:26:54 - INFO - Username: admin logged out
+2024-04-21 18:26:59 - INFO - Username: eotoole logged in successfully
+2024-04-21 18:27:03 - INFO - Username: eotoole logged out
+2024-04-21 18:27:52 - INFO - Username: admin logged in successfully
+2024-04-21 18:28:27 - INFO - Username: admin logged in successfully
+2024-04-21 18:28:33 - ERROR - Exception on /delete_user/ [POST]
+Traceback (most recent call last):
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\sql\base.py", line 2176, in _entity_namespace_key
+    return getattr(ns, key)  # type: ignore
+           ^^^^^^^^^^^^^^^^
+AttributeError: type object 'User' has no attribute 'id'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 1463, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 872, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 870, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 855, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\admin\routes.py", line 132, in delete_user
+    delete_user = User.query.filter_by(id=id).first()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1983, in filter_by
+    clauses = [
+              ^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1984, in <listcomp>
+    _entity_namespace_key(from_entity, key) == value
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\sql\base.py", line 2178, in _entity_namespace_key
+    raise exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: Entity namespace for "user" has no property "id"
+2024-04-21 18:29:14 - INFO - Username: admin logged in successfully
+2024-04-21 18:30:00 - INFO - Username: eotoole successfully created an account
+2024-04-21 18:30:09 - WARNING - Username: admin has a failed login attempt
+2024-04-21 18:30:16 - INFO - Username: admin logged in successfully
+2024-04-21 18:32:43 - INFO - Username: admin logged in successfully
+2024-04-21 18:33:44 - INFO - Username: admin logged in successfully
+2024-04-21 18:37:58 - INFO - Username: admin logged in successfully
+2024-04-21 18:38:19 - INFO - Username: admin logged out
+2024-04-21 18:39:45 - INFO - Username: admin logged in successfully
