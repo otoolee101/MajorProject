@@ -3,5 +3,25 @@
 Order History 
 {% endblock %}
 {% block content %}
-<p>Order History Page</p>
+
+<table class="table table-hover">
+    <thead class="active tables">
+      <th>ID</th>
+      <th>Asset Name</th>
+      <th>Asset Description</th>
+      <th>Check Out Date</th>
+      <th>Returned Date</th>
+    </thead>
+    <tbody>
+      {% for order_history in order_history %}
+      <tr>
+            <td>{{ order_history.asset_id }}</td>
+            <td>{{ asset_names[order_history.asset_id] }}</td>
+            <td>{{ asset_description[order_history.asset_id ] }}</td>
+            <td>{{ order_history.date }}</td>
+            
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

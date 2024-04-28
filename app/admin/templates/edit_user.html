@@ -4,7 +4,7 @@ Admin
 {% endblock %}
 {% block content %}
 <div class="edit_user">
-    <form method='post' action='/edit_user/{{admin.user_id}}'>
+    <form method='post' action='/edit_user/{{admin.id}}'>
             <label>Username:</label>
             <br>
                 <input type='text' name='username' size="100" required class='form-control' value='{{admin.username}}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">

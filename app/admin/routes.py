@@ -1,12 +1,14 @@
 from flask import flash, redirect, render_template, request, url_for
+from flask_login import login_required
 from app.admin import bp
 from app.extensions import db
-from app.models.models import User, assets
+from app.models.models import User, Assets
 
 @bp.route("/maintain_assets")
+@login_required
 def maintain_assets():
     try: 
-        asset= assets.query.all()
+        asset= Assets.query.all()
         #current_app.logger.info('Username: %s accessed admin', current_user.username)
         return render_template('maintain_assets.html',asset=asset)
     except Exception as e: 
@@ -15,9 +17,10 @@ def maintain_assets():
     return render_template("home.html")
 
 @bp.route("/add_asset",methods=["GET", "POST"])
+@login_required
 def add_asset():
     if request.method == "POST":
-        add_asset = assets(asset_name=request.form.get("asset_name"),asset_description=request.form.get("asset_description"),keyword=request.form.get("keyword"))
+        add_asset = Assets(asset_name=request.form.get("asset_name"),asset_description=request.form.get("asset_description"),keyword=request.form.get("keyword"))
 
         try:
             db.session.add(add_asset)
@@ -33,8 +36,9 @@ def add_asset():
     return render_template("add_asset.html")
 
 @bp.route("/edit_asset/<int:asset_id>", methods=['POST', 'GET'])
+@login_required
 def edit_asset(asset_id):
-    edit = assets.query.get_or_404(asset_id)
+    edit = Assets.query.get_or_404(asset_id)
     if request.method == "POST":
         #current_app.logger.info('Username: %s accessed edit reservation', current_user.username)
         edit.asset_name = request.form['asset_name']
@@ -58,9 +62,10 @@ def edit_asset(asset_id):
 
 #Function to delete  users.
 @bp.route("/delete_asset/", methods=['POST'])
+@login_required
 def delete_asset():
     asset_id = request.form.get("asset_id")
-    delete_asset = assets.query.filter_by(asset_id=asset_id).first()
+    delete_asset = Assets.query.filter_by(asset_id=asset_id).first()
 
     try:
         db.session.delete(delete_asset)
@@ -75,6 +80,7 @@ def delete_asset():
 
 #Function to return all user account when you are loggined in as a admin user.
 @bp.route("/maintain_user")
+@login_required
 def maintain_user():
     try: 
         admin= User.query.all()
@@ -87,9 +93,10 @@ def maintain_user():
 
     
 #Function to be able to edit a username or role
-@bp.route("/edit_user/<int:user_id>", methods=['GET','POST'])
-def edit_user(user_id):
-    admin = User.query.get_or_404(user_id) 
+@bp.route("/edit_user/<int:id>", methods=['GET','POST'])
+@login_required
+def edit_user(id):
+    admin = User.query.get_or_404(id) 
 
     if request.method == "POST":
         #current_app.logger.info('Username: %s accessed edit_user', current_user.username)
@@ -115,9 +122,10 @@ def edit_user(user_id):
 
 #Function to delete  users.
 @bp.route("/delete_user/", methods=['GET', 'POST'])
+@login_required
 def delete_user():
-    user_id = request.form.get("user_id")
-    delete_user = User.query.filter_by(user_id=user_id).first()
+    id = request.form.get("id")
+    delete_user = User.query.filter_by(id=id).first()
 
     try:
         db.session.delete(delete_user)
@@ -132,6 +140,7 @@ def delete_user():
     
 #Function to return logged messages
 @bp.route('/logging_messages')
+@login_required
 def logging_messages():
         log_file_path = 'app.log'
         log_content = read_log_file(log_file_path)

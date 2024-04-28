@@ -93,6 +93,7 @@ def register():
 
 
 @bp.route("/manage_account")
+@login_required
 def manage_account():
     return render_template("manage_account.html")
 

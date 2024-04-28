@@ -1,4 +1,4 @@
-2024-04-21 18:25:35 - ERROR - Exception on /register/ [POST]
+2024-04-28 18:28:21 - ERROR - Exception on /remove_item/ [POST]
 Traceback (most recent call last):
   File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 1463, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,36 +12,20 @@ Traceback (most recent call last):
   File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 855, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\user\routes.py", line 78, in register
-    new_user = User(username=form.username.data, branch_id = form.branch_name.data, password=hashed_password)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<string>", line 4, in __init__
-  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 564, in _initialize_instance
-    with util.safe_reraise():
-  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
-    raise exc_value.with_traceback(exc_tb)
-  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 562, in _initialize_instance
-    manager.original_init(*mixed[1:], **kwargs)
-  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\decl_base.py", line 2139, in _declarative_constructor
-    raise TypeError(
-TypeError: 'branch_id' is an invalid keyword argument for User
-2024-04-21 18:26:29 - INFO - Username: eotoole successfully created an account
-2024-04-21 18:26:35 - INFO - Username: eotoole attempted to log in but not yet authorised
-2024-04-21 18:26:40 - INFO - Username: admin logged in successfully
-2024-04-21 18:26:54 - INFO - Username: admin logged out
-2024-04-21 18:26:59 - INFO - Username: eotoole logged in successfully
-2024-04-21 18:27:03 - INFO - Username: eotoole logged out
-2024-04-21 18:27:52 - INFO - Username: admin logged in successfully
-2024-04-21 18:28:27 - INFO - Username: admin logged in successfully
-2024-04-21 18:28:33 - ERROR - Exception on /delete_user/ [POST]
-Traceback (most recent call last):
-  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\sql\base.py", line 2176, in _entity_namespace_key
-    return getattr(ns, key)  # type: ignore
-           ^^^^^^^^^^^^^^^^
-AttributeError: type object 'User' has no attribute 'id'
-
-The above exception was the direct cause of the following exception:
-
+  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: remove_item() missing 1 required positional argument: 'asset_id'
+2024-04-28 18:29:49 - INFO - Username: admin logged in successfully
+2024-04-28 18:30:21 - INFO - Username: admin logged in successfully
+2024-04-28 18:32:16 - INFO - Username: admin logged in successfully
+2024-04-28 18:35:50 - INFO - Username: admin logged in successfully
+2024-04-28 18:37:53 - INFO - Username: admin logged in successfully
+2024-04-28 18:38:34 - INFO - Username: admin logged in successfully
+2024-04-28 18:39:58 - INFO - Username: admin logged in successfully
+2024-04-28 18:49:14 - WARNING - Username: admin has a failed login attempt
+2024-04-28 18:49:18 - INFO - Username: admin logged in successfully
+2024-04-28 18:49:23 - ERROR - Exception on /add_to_cart/1 [POST]
 Traceback (most recent call last):
   File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 1463, in wsgi_app
     response = self.full_dispatch_request()
@@ -55,24 +39,47 @@ Traceback (most recent call last):
   File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\flask\app.py", line 855, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\admin\routes.py", line 132, in delete_user
-    delete_user = User.query.filter_by(id=id).first()
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1983, in filter_by
-    clauses = [
-              ^
-  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1984, in <listcomp>
-    _entity_namespace_key(from_entity, key) == value
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\.venv\Lib\site-packages\sqlalchemy\sql\base.py", line 2178, in _entity_namespace_key
-    raise exc.InvalidRequestError(
-sqlalchemy.exc.InvalidRequestError: Entity namespace for "user" has no property "id"
-2024-04-21 18:29:14 - INFO - Username: admin logged in successfully
-2024-04-21 18:30:00 - INFO - Username: eotoole successfully created an account
-2024-04-21 18:30:09 - WARNING - Username: admin has a failed login attempt
-2024-04-21 18:30:16 - INFO - Username: admin logged in successfully
-2024-04-21 18:32:43 - INFO - Username: admin logged in successfully
-2024-04-21 18:33:44 - INFO - Username: admin logged in successfully
-2024-04-21 18:37:58 - INFO - Username: admin logged in successfully
-2024-04-21 18:38:19 - INFO - Username: admin logged out
-2024-04-21 18:39:45 - INFO - Username: admin logged in successfully
+  File "C:\Users\ellie\OneDrive\Documents\Programming\Python\Level 6\Major Project\app\main\routes.py", line 32, in add_to_cart
+    update_available = Assets(Assets.available == 'N')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: __init__() takes 1 positional argument but 2 were given
+2024-04-28 18:53:57 - INFO - Username: admin logged in successfully
+2024-04-28 18:55:43 - INFO - Username: admin logged in successfully
+2024-04-28 18:59:05 - INFO - Username: admin logged in successfully
+2024-04-28 19:02:09 - INFO - Username: admin logged in successfully
+2024-04-28 19:02:59 - INFO - Username: admin logged in successfully
+2024-04-28 19:11:03 - INFO - Username: admin logged in successfully
+2024-04-28 19:15:18 - INFO - Username: admin logged in successfully
+2024-04-28 19:17:44 - INFO - Username: admin logged in successfully
+2024-04-28 19:17:54 - INFO - Username: admin logged out
+2024-04-28 19:18:00 - WARNING - There was a failed attempt to login.
+2024-04-28 19:18:08 - WARNING - There was a failed attempt to login.
+2024-04-28 19:18:14 - WARNING - There was a failed attempt to login.
+2024-04-28 19:18:17 - WARNING - There was a failed attempt to login.
+2024-04-28 19:18:26 - INFO - Username: admin logged in successfully
+2024-04-28 19:18:32 - INFO - Username: admin logged out
+2024-04-28 19:18:41 - INFO - Username: ellie successfully created an account
+2024-04-28 19:18:45 - INFO - Username: admin logged in successfully
+2024-04-28 19:18:56 - INFO - Username: admin logged out
+2024-04-28 19:19:01 - INFO - Username: ellie logged in successfully
+2024-04-28 19:22:13 - INFO - Username: admin logged in successfully
+2024-04-28 19:23:37 - INFO - Username: admin logged in successfully
+2024-04-28 19:23:56 - INFO - Username: admin logged in successfully
+2024-04-28 19:25:35 - INFO - Username: admin logged in successfully
+2024-04-28 19:26:01 - INFO - Username: admin logged in successfully
+2024-04-28 19:27:09 - INFO - Username: admin logged in successfully
+2024-04-28 19:27:34 - INFO - Username: admin logged in successfully
+2024-04-28 19:29:50 - INFO - Username: admin logged in successfully
+2024-04-28 19:32:20 - INFO - Username: admin logged in successfully
+2024-04-28 19:34:04 - INFO - Username: admin logged in successfully
+2024-04-28 19:35:13 - INFO - Username: admin logged in successfully
+2024-04-28 19:35:44 - INFO - Username: admin logged in successfully
+2024-04-28 19:36:15 - INFO - Username: admin logged in successfully
+2024-04-28 19:36:45 - INFO - Username: admin logged in successfully
+2024-04-28 19:37:21 - INFO - Username: admin logged in successfully
+2024-04-28 19:38:02 - INFO - Username: admin logged in successfully
+2024-04-28 19:38:43 - INFO - Username: admin logged in successfully
+2024-04-28 19:39:34 - INFO - Username: admin logged in successfully
+2024-04-28 19:40:10 - INFO - Username: admin logged in successfully
+2024-04-28 19:41:26 - INFO - Username: admin logged in successfully
+2024-04-28 19:44:55 - INFO - Username: admin logged out
