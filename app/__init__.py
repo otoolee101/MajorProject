@@ -34,6 +34,8 @@ def create_app():
     app.register_blueprint(user_bp)
     from app.admin import bp as admin_bp
     app.register_blueprint(admin_bp)
+    from app.manager import bp as manager_bp
+    app.register_blueprint(manager_bp)
 
    
     @login_manager.user_loader

@@ -4,7 +4,7 @@ Add Asset
 {% endblock %}
 {% block content %}
 <div class="add_asset">
-    <form method='post' action="{{url_for('admin.add_asset')}}" >
+    <form method='post' action="{{url_for('manager.add_asset')}}" >
             <label>Asset Name:</label>
             <br>
             <input type='text' name='asset_name' size="10" required class='form-control'>
@@ -16,7 +16,7 @@ Add Asset
             <input type='text' name='keyword' size="10" required class='form-control'>
             <p></p>
             <input type='submit' value='Submit' class='btn btn-primary'>
-            <input type="reset" value="Reset">
+            <input type="reset" value="Reset" class='btn btn-primary'>
     </form>
 </div>
 {% endblock %}

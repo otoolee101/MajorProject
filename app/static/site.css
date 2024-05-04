@@ -27,7 +27,7 @@
 /*formatting options on the the nav bar*/ 
 .navbar-item {
     padding: 8px;
-    margin: 0 10px;
+    margin: 0 100px;
     text-decoration: none;
     color: white;
     cursor: pointer;

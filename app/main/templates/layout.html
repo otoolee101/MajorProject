@@ -32,9 +32,15 @@
                     <a href="{{ url_for('main.order_history') }}" class="navbar-items" >Order History</a><br>
                     <a href="{{ url_for('user.manage_account') }}" class="navbar-items" >Manage Account</a><br>
                     <div class="dropdown-submenu">
+                        <a href="#" class="navbar-items dropdown-arrow">Maintain Assets/Orders</a>
+                            <div class="dropdown-content-submenu">
+                                <a  href="{{ url_for('manager.maintain_assets') }}" class="navbar-items">Maintain Assets</a><br>
+                                <a  href="{{ url_for('manager.maintain_orders') }}" class="navbar-items">Maintain Orders</a><br>
+                            </div>
+                    </div>
+                    <div class="dropdown-submenu">
                         <a href="#" class="navbar-items dropdown-arrow">Admin</a>
                         <div class="dropdown-content-submenu">
-                            <a  href="{{ url_for('admin.maintain_assets') }}" class="navbar-items">Maintain Assets</a><br>
                             <a  href="{{ url_for('admin.maintain_user') }}" class="navbar-items">Maintain User</a><br>
                             <a  href="{{ url_for('admin.logging_messages') }}" class="navbar-items">Logging messages</a><br>
                         </div>

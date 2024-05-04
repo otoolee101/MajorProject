@@ -24,7 +24,10 @@ Edit Asset
             </select>
             <p></p>
             <input type='submit' value='Update' class='btn btn-primary'>
-            <input type="reset" value="Reset">
+            <input type="reset" value="Reset" class='btn btn-primary'>
     </form>
+    <div class="text-right">
+        <td><a href='{{ url_for("manager.maintain_assets")}}' class='btn btn-primary'>Back</a></td>
+    </div>
 </div>
 {% endblock %}

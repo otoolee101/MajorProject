@@ -10,10 +10,43 @@ from app.extensions import db
 def home():
     return render_template("home.html")
 
-@bp.route("/return_asset")
+@bp.route("/return_asset/", methods=['GET', 'POST'])
 @login_required
 def return_asset():
-    return render_template("return_asset.html")
+    try:
+        return_assets = Order.query.filter(Order.username == current_user.username, Order.status != 'Returned').all()
+        current_date = datetime.now()
+        asset_names = {}
+        asset_descriptions = {}
+        
+        for return_asset in return_assets:
+            asset = Assets.query.filter_by(asset_id=return_asset.asset_id).first()
+            if asset:
+                asset_names[return_asset.asset_id] = asset.asset_name
+                asset_descriptions[return_asset.asset_id] = asset.asset_description
+
+        if request.method == "POST":
+            order_id = request.form.get('order_id')
+            asset_id = request.form.get('asset_id')
+            return_asset = Order.query.filter_by(order_id=order_id).first()
+            update_asset = Assets.query.filter_by(asset_id=asset_id).first()
+            if return_asset:
+                return_asset.status = 'Returned'
+                return_asset.return_date = current_date
+                update_asset.available = 'Y'
+                try:
+                    db.session.commit()
+                    flash("Item returned successfully.")
+                    return redirect(url_for("main.home"))
+                except Exception as e:
+                    flash("Item failed to return.")
+                    return redirect(url_for('main.home'))
+
+        return render_template('return_asset.html', return_assets=return_assets, asset_names=asset_names, asset_descriptions=asset_descriptions)
+    except Exception as e:
+        flash("Error returning Item.")
+        return redirect(url_for("main.home"))
+
 
 @bp.route("/borrow_asset")
 @login_required
@@ -93,7 +126,7 @@ def checkout():
                     username=current_user.username,
                     asset_id=cart_item.asset_id,
                     branch_name=current_user.branch_name,
-                    date=current_date,
+                    check_out_date=current_date,
                     status='Order Placed'
                 )
                 db.session.add(order)

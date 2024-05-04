@@ -23,7 +23,8 @@ class Order(db.Model):
     username = db.Column(db.Integer, db.ForeignKey('user.username'), nullable=False)
     asset_id = db.Column(db.String(100), db.ForeignKey('assets.asset_id'), nullable=False)
     branch_name = db.Column(db.String(50), nullable=False)
-    date = db.Column(db.Date,nullable=False)
+    check_out_date = db.Column(db.Date,nullable=False)
+    return_date = db.Column(db.Date,nullable=True)
     status = db.Column(db.String(20),nullable= False, default='New Order')
     # Define relationships
     user = relationship('User', backref='order')
@@ -57,15 +58,3 @@ class Branch(db.Model):
     address_line1 = db.Column(db.String(225), nullable=False)
     address_line2 = db.Column(db.String(225), nullable=False)
     postcode = db.Column(db.String(8), nullable=False) 
-
-
-#Create table to record actions on each asset
-class AssetHistory(db.Model):
-    __tablename__ = 'asset_history'
-    asset_id = db.Column(db.Integer, primary_key=True, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
-    check_out_date = db.Column(db.Date,nullable=False)
-    return_date = db.Column(db.Date,nullable=False)
-
-
-
