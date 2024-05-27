@@ -2,7 +2,7 @@ from flask import flash, redirect, render_template, request, url_for
 from flask_login import login_required
 from app.manager import bp
 from app.extensions import db
-from app.models.models import User, Assets, Order
+from app.models.models import User, Assets, Order, Branch
 
 @bp.route("/maintain_assets")
 @login_required
@@ -99,17 +99,20 @@ def asset_history(asset_id):
         # Create a dictionary to store asset names
         asset_names = {}
         asset_description = {}
+        branch_names = {}
         # Fetch asset names corresponding to asset IDs in the cart
         for item in asset_history_items:
             asset = Assets.query.filter_by(asset_id=item.asset_id).first()
+            branch = Branch.query.filter_by(branch_id=item.branch_id).first()
             if asset:
                 asset_names[item.asset_id] = asset.asset_name
                 asset_description[item.asset_id] = asset.asset_description
+                branch_names[item.branch_id] = branch.branch_name
     except Exception as e: 
         flash("An error occurred retrieving assets.")
     return render_template("asset_history.html", asset_history_items=asset_history_items, 
                            asset_names=asset_names, 
-                           asset_description=asset_description)
+                           asset_description=asset_description, branch_names=branch_names)
 
 @bp.route("/maintain_orders/", methods=['GET'])
 @login_required
@@ -119,50 +122,52 @@ def maintain_orders():
         # Create a dictionary to store asset names
         asset_names = {}
         asset_description = {}
+        branch_names = {}
         # Fetch asset names corresponding to asset IDs in the cart
         for item in order:
             asset = Assets.query.filter_by(asset_id=item.asset_id).first()
+            branch = Branch.query.filter_by(branch_id=item.branch_id).first()
             if asset:
                 asset_names[item.asset_id] = asset.asset_name
                 asset_description[item.asset_id] = asset.asset_description
+                branch_names[item.branch_id] = branch.branch_name
     except Exception as e: 
         flash("An error occurred retrieving assets.")
     return render_template("maintain_orders.html", order=order, 
                            asset_names=asset_names, 
-                           asset_description=asset_description)
+                           asset_description=asset_description,branch_names=branch_names)
 
 
 @bp.route("/edit_order/<int:order_id>", methods=['GET', 'POST'])
 @login_required
 def edit_order(order_id):
-    try: 
-        order = Order.query.filter_by(order_id=order_id).first()
-        if order:
-            # Create a dictionary to store asset names
-            asset_names = {}
-            asset_description = {}
-            # Fetch asset names corresponding to asset IDs in the order
-            asset = Assets.query.filter_by(asset_id=order.asset_id).first()
-            if asset:
-                asset_names[order.asset_id] = asset.asset_name
-                asset_description[order.asset_id] = asset.asset_description
-            
-            if request.method == "POST": 
-                order.status = request.form['status']
-                try:
-                    db.session.commit() 
-                    return redirect(url_for('manager.maintain_orders'))
-                except Exception as e:
-                    flash("An error occurred while updating order status: " + str(e))
-                    return redirect(url_for('manager.maintain_orders'))
-                
-        else:
-            flash("Order not found.")
-            return redirect(url_for('somewhere'))  # Redirect to somewhere meaningful
-    except Exception as e: 
-        flash("An error occurred retrieving assets: " + str(e))
-        return redirect(url_for('somewhere'))  # Redirect to somewhere meaningful
-    
+    order = Order.query.get_or_404(order_id)
+    asset_names = {}
+    asset_description = {}
+    branch_names = {}
+
+    # Fetch asset and branch information
+    asset = Assets.query.filter_by(asset_id=order.asset_id).first()
+    if asset:
+        asset_names[order.asset_id] = asset.asset_name
+        asset_description[order.asset_id] = asset.asset_description
+
+    branch = Branch.query.filter_by(branch_id=order.branch_id).first()
+    if branch:
+        branch_names[branch.branch_id] = branch.branch_name
+
+    if request.method == "POST":
+        # Update order status
+        order.status = request.form['status']
+        try:
+            db.session.commit()
+            flash("Order updated successfully")
+        except Exception as e:
+            flash("An error occurred while updating order status: " + str(e))
+        return redirect(url_for('manager.maintain_orders'))
+
+    # Render the template for both GET and POST requests
     return render_template("edit_order.html", order=order, 
                            asset_names=asset_names, 
-                           asset_description=asset_description)
+                           asset_description=asset_description,
+                           branch_names=branch_names)

@@ -61,7 +61,7 @@ def borrow_asset():
 @bp.route('/add_to_cart/<int:asset_id>', methods=['GET', 'POST'])
 def add_to_cart(asset_id):
     if request.method == "POST": 
-        add_item = Cart(username=current_user.username, asset_id=request.form.get("asset_id"), branch_name=current_user.branch_name)
+        add_item = Cart(username=current_user.username, asset_id=request.form.get("asset_id"), branch_id=current_user.branch_id)
         available = Assets.query.filter_by(asset_id=asset_id).first()
         try:
             available.available = 'N'
@@ -125,7 +125,7 @@ def checkout():
                 order = Order(
                     username=current_user.username,
                     asset_id=cart_item.asset_id,
-                    branch_name=current_user.branch_name,
+                    branch_id=current_user.branch_id,
                     check_out_date=current_date,
                     status='Order Placed'
                 )

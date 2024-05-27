@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from app.extensions import *
-from app.models.models import User
+from app.models.models import User, Branch
 
 
 def validate_password_strength(form, field):
@@ -18,10 +18,12 @@ def validate_password_strength(form, field):
         raise ValidationError('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character')
 
 """class to register form ensuring username and password meets requirements"""
+from wtforms import SelectField
+
 class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
-    branch_name = StringField(validators=[InputRequired(), Length(min=4, max=10)], render_kw={"placeholder": "branch_name"})
-    password = PasswordField(validators=[InputRequired(), Length(min=8, max=20),validate_password_strength], render_kw={"placeholder": "Password"})
+    password = PasswordField(validators=[InputRequired(), Length(min=8, max=20), validate_password_strength], render_kw={"placeholder": "Password"})
+    branch_name = SelectField('Branch Name', coerce=int)
     submit = SubmitField('Register')
 
     """check username is unique"""
@@ -30,6 +32,12 @@ class RegisterForm(FlaskForm):
         if existing_user_username:
             flash("User already exists")
             raise ValidationError('That username already exists. Please choose a different one.')
+
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        self.branch_name.choices = [(0, 'Select Branch')] + [(branch.branch_id, branch.branch_name) for branch in Branch.query.all()]
+        self.branch_name.render_kw = {"placeholder": "Select Branch"}
+
 
             
 """class to log into making sure it meets validation requirements"""

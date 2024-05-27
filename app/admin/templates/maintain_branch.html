@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block title %}
+Maintain Branch 
+{% endblock %}
+{% block content %}
+<td><a href='{{url_for("admin.add_branch")}}' class='btn btn-primary'>Add Branch</a></td>
+<table class="table table-hover">
+  <thead class="tables">
+        <th>ID</th>
+        <th>Branch Name</th>
+        <th>Address Line 1</th>
+        <th>Address Line 2</th>
+        <th>Postcode </th>
+    </thead>
+    <tbody>
+     {% for branch in branch %}
+      <tr>
+        <td>{{branch.branch_id}}</td>
+        <td>{{branch.branch_name}}</td>
+        <td>{{branch.address_line1}}</td>
+        <td>{{branch.address_line2}}</td>
+        <td>{{branch.postcode}}</td>
+        <td><a href='{{url_for("admin.edit_branch", branch_id=branch.branch_id)}}' class='btn btn-primary'>Edit</a></td>
+        <td>
+          <form method="POST" action="/delete_branch/">
+            <input type="hidden" value="{{branch.branch_id}}" name="branch_id" >
+            <input type="submit" class='btn btn-primary' value="Delete" onclick='return confirm("Are you sure you want to delete this branch?")'>
+          </form>
+         </td>
+      </tr>
+     {%endfor%}
+    </tbody>
+  </table>
+{% endblock %}

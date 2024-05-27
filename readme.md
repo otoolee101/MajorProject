@@ -6,7 +6,8 @@ Flask shell
 >>> from app.extensions import db, bcrypt
 >>> from app.models.models import Cart, Assets, User, Branch, Asset_history, Order 
 >>> db.create_all()
->>> admin=User(username='admin', branch_name = 'ARMYY', password=bcrypt.generate_password_hash('password').decode('utf-8'), role='admin', authorised= 'Y')
->>> db.session.add(admin)
+>>> branch= Branch(branch_name = 'Head Office', address_line1 = 'Norcorss Road', address_line2 = 'Blackpool', postcode ='FY3 1TL')
+>>> admin=User(username='admin', branch_id = 1, password=bcrypt.generate_password_hash('password').decode('utf-8'), role='admin', authorised= 'Y')
+>>> db.session.add(admin,branch)
 >>> db.session.commit()
 >>> exit()

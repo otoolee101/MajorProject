@@ -11,7 +11,7 @@ Admin
             <p></p>
             <label>Branch:</label>
             <br>
-                <input type='text' name='registration' size="100" required class='form-control' value='{{admin.branch_name}}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">
+                <input type='text' name='registration' size="100" required class='form-control' value='{{ branch_names[admin.branch_id] }}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">
             <p></p>
             <label>Role:</label>
             <br>

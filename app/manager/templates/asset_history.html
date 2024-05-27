@@ -21,7 +21,7 @@ Asset History
       {% for asset_history_items in asset_history_items %}
       <tr>
             <td>{{ asset_history_items.username }}</td>
-            <td>{{ asset_history_items.branch_name }}</td>
+            <td>{{ branch_names[asset_history_items.branch_id] }}</td>
             <td>{{ asset_history_items.check_out_date }}</td>
             <td>{{ asset_history_items.return_date }}</td>
             <td>{{ asset_history_items.status }}</td>

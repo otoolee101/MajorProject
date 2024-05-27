@@ -3,7 +3,6 @@
 Edit Order
 {% endblock %}
 {% block content %}
-<p> Edit order here</p>
 <div class="edit_user">
     <form method='post' action='/edit_order/{{order.order_id}}'>
             <label>Asset Name:</label>
@@ -20,7 +19,7 @@ Edit Order
             <p></p>
             <label>Branch:</label>
             <br>
-                <input type='text' name='branch_name' size="100" required class='form-control' value='{{ order.branch_name }}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')" readonly>
+                <input type='text' name='branch_name' size="100" required class='form-control' value='{% if order.branch_id in branch_names %}{{ branch_names[order.branch_id] }}{% endif %}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')" readonly>
             <p></p>
             <label>Date Placed:</label>
             <br>
@@ -28,7 +27,14 @@ Edit Order
             <p></p>
             <label>Status:</label>
             <br>
-                <input type='text' name='status' size="100" required class='form-control' value='{{ order.status }}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')" >
+            <select name="status" id="status" class='form-control'>
+                <option value = "{{order.status}}">{{order.status}}</option>
+                <option value="Order Placed">Order Placed</option>
+                <option value="Order Shipped">Order Shipped</option>
+                <option value="Order Delivered">Order Delivered</option>
+                <option value="Returned">Returned </option>
+            </select>
+
             <p></p>
             <input type='submit' value='Update' class='btn btn-primary'>
             <input type="reset" value="Reset" class='btn btn-primary'>

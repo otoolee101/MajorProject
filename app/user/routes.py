@@ -2,7 +2,7 @@ from flask import render_template
 from app.user import bp
 
 from flask import current_app, flash, redirect, render_template, request, session, url_for
-from app.models.models import User
+from app.models.models import User, Branch
 from app.extensions import db, bcrypt
 from app.user.forms import RegisterForm, LoginForm
 from flask_login import current_user, login_required, login_user, logout_user
@@ -75,7 +75,7 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        new_user = User(username=form.username.data, branch_name = form.branch_name.data, password=hashed_password)
+        new_user = User(username=form.username.data, branch_id = form.branch_name.data, password=hashed_password)
 
         try:
             db.session.add(new_user)
@@ -91,11 +91,36 @@ def register():
        
     return render_template('register.html', form=form)
 
-
-@bp.route("/manage_account")
+@bp.route("/manage_account", methods=['POST', 'GET'])
 @login_required
 def manage_account():
-    return render_template("manage_account.html")
+    edit_account = User.query.get_or_404(current_user.id)
+
+    if current_user.authorised == 'Y' and current_user.username == edit_account.username:
+        branches = Branch.query.all()
+        if request.method == "POST":
+            current_app.logger.info('Username: %s accessed edit_account', current_user.username)
+            edit_account.branch_id = request.form['branch_id']
+            try:
+                db.session.commit()
+                flash("Account updated successfully")
+                current_app.logger.info('Username: %s successfully edited account %s', current_user.username, edit_account.username)
+                return redirect(url_for("main.home"))
+            except Exception as e:
+                flash("Account failed to update")
+                current_app.logger.warning('Username: %s failed to edited account %s', current_user.username, edit_account.username)
+                return render_template("manage_account.html", edit_account=edit_account, branches=branches)        
+        else:
+            return render_template("manage_account.html", edit_account=edit_account, branches=branches)
+    else: 
+        current_app.logger.critical('Username: %s attempted to edit %s account', current_user.username, edit_account.username)
+        flash("You are not authorised to access this page")
+        return redirect(url_for('main.home'))
+
+
+    
+
+
 
 #Function to log out of Booker
 @bp.route('/logout/', methods=['GET', 'POST'])
