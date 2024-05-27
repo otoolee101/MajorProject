@@ -73,3 +73,5 @@ AttributeError: 'list' object has no attribute 'branch_id'
 2024-05-08 21:18:40 - INFO - Username: admin logged out
 2024-05-08 21:18:50 - INFO - Username: admin logged in successfully
 2024-05-26 16:34:57 - INFO - Username: admin logged in successfully
+2024-05-27 18:20:33 - INFO - Username: admin logged in successfully
+2024-05-27 18:21:05 - INFO - Username: admin logged out
