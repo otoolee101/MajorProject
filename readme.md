@@ -10,4 +10,5 @@ Flask shell
 >>> admin=User(username='admin', branch_id = 1, password=bcrypt.generate_password_hash('password').decode('utf-8'), role='admin', authorised= 'Y')
 >>> db.session.add(admin,branch)
 >>> db.session.commit()
->>> exit()
+>>> exit() 
+test git actions
