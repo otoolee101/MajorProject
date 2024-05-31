@@ -11,14 +11,14 @@ Admin
             <p></p>
             <label>Branch:</label>
             <br>
-                <input type='text' name='registration' size="100" required class='form-control' value='{{ branch_names[admin.branch_id] }}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">
+                <input type='text' name='branch_name' size="100" required class='form-control' value='{{ branch_names[admin.branch_id] }}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">
             <p></p>
             <label>Role:</label>
             <br>
             <select name="role" id="role" class='form-control'>
                 <option value = "{{admin.role}}">{{admin.role}}</option>
                 <option value="admin">admin</option>
-                <option value="user">manager</option>
+                <option value="manager">manager</option>
                 <option value="user">user</option>
             </select>
             <p></p>

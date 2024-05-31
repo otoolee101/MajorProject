@@ -1,11 +1,24 @@
-from flask import flash, redirect, render_template, request, url_for
-from flask_login import login_required
+from functools import wraps
+from flask import current_app, flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_required
 from app.manager import bp
 from app.extensions import db
 from app.models.models import User, Assets, Order, Branch
 
+def check_is_manager(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if current_user.role == 'admin'or current_user.role == 'manager':
+            return func(*args, **kwargs)
+        else:
+            current_app.logger.critical('Username: %s accessed attempted to access %s', current_user.username,func.__name__)
+            flash("You are not authorised to access this page")
+            return redirect(url_for("main.home"))
+    return decorated_function
+
 @bp.route("/maintain_assets")
 @login_required
+@check_is_manager
 def maintain_assets():
     try: 
         asset= Assets.query.all()
@@ -18,6 +31,7 @@ def maintain_assets():
 
 @bp.route("/add_asset",methods=["GET", "POST"])
 @login_required
+@check_is_manager
 def add_asset():
     if request.method == "POST":
         add_asset = Assets(asset_name=request.form.get("asset_name"),asset_description=request.form.get("asset_description"),keyword=request.form.get("keyword"))
@@ -31,12 +45,13 @@ def add_asset():
         except Exception as e:
             flash("Asset failed to create. Please contact system administration.")
             # current_app.logger.exception('Username: %s had a failure when creating a booking for reserve_parking: %s', current_user.username)
-            return render_template("main/home.html")
+            return redirect(url_for("manager.maintain_assets"))
     
     return render_template("add_asset.html")
 
 @bp.route("/edit_asset/<int:asset_id>", methods=['POST', 'GET'])
 @login_required
+@check_is_manager
 def edit_asset(asset_id):
     edit = Assets.query.get_or_404(asset_id)
     if request.method == "POST":
@@ -63,6 +78,7 @@ def edit_asset(asset_id):
 #Function to delete  users.
 @bp.route("/delete_asset/", methods=['POST'])
 @login_required
+@check_is_manager
 def delete_asset():
     asset_id = request.form.get("asset_id")
     delete_asset = Assets.query.filter_by(asset_id=asset_id).first()
@@ -81,6 +97,7 @@ def delete_asset():
 #Function to return all user account when you are loggined in as a admin user.
 @bp.route("/maintain_user")
 @login_required
+@check_is_manager
 def maintain_user():
     try: 
         admin= User.query.all()
@@ -93,6 +110,7 @@ def maintain_user():
 
 @bp.route("/asset_history/<int:asset_id>", methods=['GET'])
 @login_required
+@check_is_manager
 def asset_history(asset_id):
     try: 
         asset_history_items = Order.query.filter_by(asset_id=asset_id).all()
@@ -116,6 +134,7 @@ def asset_history(asset_id):
 
 @bp.route("/maintain_orders/", methods=['GET'])
 @login_required
+@check_is_manager
 def maintain_orders():
     try: 
         order = Order.query.all()
@@ -140,6 +159,7 @@ def maintain_orders():
 
 @bp.route("/edit_order/<int:order_id>", methods=['GET', 'POST'])
 @login_required
+@check_is_manager
 def edit_order(order_id):
     order = Order.query.get_or_404(order_id)
     asset_names = {}

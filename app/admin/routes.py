@@ -1,12 +1,27 @@
-from flask import flash, redirect, render_template, request, url_for
-from flask_login import login_required
+from functools import wraps
+from flask import current_app, flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_required
 from app.admin import bp
 from app.extensions import db
 from app.models.models import User, Branch
 
+#Function checks if user is of the role admin when attempting to access centain functions. 
+#If they are not it will return them to the reserve_parking page and put a line in the log.
+def check_is_admin(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if current_user.role == 'admin':
+            return func(*args, **kwargs)
+        else:
+            current_app.logger.critical('Username: %s accessed attempted to access %s', current_user.username,func.__name__)
+            flash("You are not authorised to access this page")
+            return redirect(url_for("main.home"))
+    return decorated_function
+
 #Function to return all user account when you are loggined in as a admin user.
 @bp.route("/maintain_user", methods=['GET'])
 @login_required
+@check_is_admin
 def maintain_user():
     try: 
         admins = User.query.all()
@@ -23,6 +38,7 @@ def maintain_user():
 #Function to be able to edit a username or role
 @bp.route("/edit_user/<int:id>", methods=['GET','POST'])
 @login_required
+@check_is_admin
 def edit_user(id):
     admin = User.query.filter_by(id=id).first()
     branch_names = {}
@@ -34,7 +50,7 @@ def edit_user(id):
     if request.method == "POST":
         #current_app.logger.info('Username: %s accessed edit_user', current_user.username)
         admin.username = request.form['username']
-        admin.registration = request.form['registration']
+        admin.branch_name = request.form['branch_name']
         admin.role = request.form['role']
         admin.authorised = request.form['authorised']
 
@@ -57,6 +73,7 @@ def edit_user(id):
 #Function to delete  users.
 @bp.route("/delete_user/", methods=['GET', 'POST'])
 @login_required
+@check_is_admin
 def delete_user():
     id = request.form.get("id")
     delete_user = User.query.filter_by(id=id).first()
@@ -74,6 +91,7 @@ def delete_user():
 
 @bp.route("/maintain_branch")
 @login_required
+@check_is_admin
 def maintain_branch():
     try: 
         branch= Branch.query.all()
@@ -86,6 +104,7 @@ def maintain_branch():
 
 @bp.route("/add_branch",methods=['GET','POST'])
 @login_required
+@check_is_admin
 def add_branch():
     if request.method == "POST":
         add_branch = Branch(branch_name=request.form.get("branch_name"),address_line1=request.form.get("address_line1"), address_line2=request.form.get("address_line2"),postcode=request.form.get("postcode"))
@@ -105,6 +124,7 @@ def add_branch():
     
 @bp.route("/edit_branch/<int:branch_id>", methods=['GET','POST'])
 @login_required
+@check_is_admin
 def edit_branch(branch_id):
     branch = Branch.query.get_or_404(branch_id) 
 
@@ -132,6 +152,7 @@ def edit_branch(branch_id):
     
 @bp.route("/delete_branch/", methods=['GET', 'POST'])
 @login_required
+@check_is_admin
 def delete_branch():
     branch_id = request.form.get("branch_id")
     delete_branch = Branch.query.filter_by(branch_id=branch_id).first()
@@ -150,6 +171,7 @@ def delete_branch():
 #Function to return logged messages
 @bp.route('/logging_messages')
 @login_required
+@check_is_admin
 def logging_messages():
         log_file_path = 'app.log'
         log_content = read_log_file(log_file_path)

@@ -29,7 +29,7 @@ def login():
                     
                     #If users not authorised do not let them in. 
                     else:
-                        current_app.logger.info('Username: %s attempted to log in but not yet authorised', user.username)
+                        current_app.logger.info('Username: %s attempted to log in but not yet authorised.', user.username)
                         flash ("Unsucessful sign in. Either username/password incorrect, account locked or unauthorised.")
                         return redirect(url_for('user.login'))
                     
@@ -116,10 +116,6 @@ def manage_account():
         current_app.logger.critical('Username: %s attempted to edit %s account', current_user.username, edit_account.username)
         flash("You are not authorised to access this page")
         return redirect(url_for('main.home'))
-
-
-    
-
 
 
 #Function to log out of Booker

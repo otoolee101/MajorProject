@@ -31,6 +31,7 @@
                 <div class="dropdown-content">
                     <a href="{{ url_for('main.order_history') }}" class="navbar-items" >Order History</a><br>
                     <a href="{{ url_for('user.manage_account') }}" class="navbar-items" >Manage Account</a><br>
+                    {% if current_user.role == 'admin' or current_user.role == 'manager'  %} 
                     <div class="dropdown-submenu">
                         <a href="#" class="navbar-items dropdown-arrow">Maintain Assets/Orders</a>
                             <div class="dropdown-content-submenu">
@@ -38,6 +39,8 @@
                                 <a  href="{{ url_for('manager.maintain_orders') }}" class="navbar-items">Maintain Orders</a><br>
                             </div>
                     </div>
+                    {% endif %}
+                    {% if current_user.role == 'admin' %} 
                     <div class="dropdown-submenu">
                         <a href="#" class="navbar-items dropdown-arrow">Admin</a>
                         <div class="dropdown-content-submenu">
@@ -46,6 +49,7 @@
                             <a  href="{{ url_for('admin.logging_messages') }}" class="navbar-items">Logging messages</a><br>
                         </div>
                     </div>
+                    {% endif %}
                     <a href="{{ url_for('user.logout') }}"  class="navbar-items"  onclick='return confirm("Are you sure you want to log out?")'>Log Out</a><br>
                 </div>
             </div>
