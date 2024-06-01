@@ -16,6 +16,7 @@ def check_is_manager(func):
             return redirect(url_for("main.home"))
     return decorated_function
 
+#view all assets in a single screen
 @bp.route("/maintain_assets")
 @login_required
 @check_is_manager
@@ -29,6 +30,7 @@ def maintain_assets():
         #current_app.logger.exception('Error during retrieving all users: %s', str(e))
     return render_template("home.html")
 
+#Function to create a new asset
 @bp.route("/add_asset",methods=["GET", "POST"])
 @login_required
 @check_is_manager
@@ -49,6 +51,7 @@ def add_asset():
     
     return render_template("add_asset.html")
 
+#Able to edit asset and make it available or not.
 @bp.route("/edit_asset/<int:asset_id>", methods=['POST', 'GET'])
 @login_required
 @check_is_manager
@@ -70,12 +73,12 @@ def edit_asset(asset_id):
         except Exception as e:
             flash("Asset failed to update")
             #current_app.logger.warning('Username: %s failed to edit a reservation %s', current_user.username, edit.id)
-            return redirect(url_for('manager.maintain_assets', edit=edit))
+            return redirect(url_for('manager.maintain_assets'))
     else:
             #current_app.logger.warning('Username: %s failed to access reservations', current_user.username)
             return render_template("edit_asset.html", edit=edit)  
 
-#Function to delete  users.
+#Function to delete  assets.
 @bp.route("/delete_asset/", methods=['POST'])
 @login_required
 @check_is_manager
@@ -93,20 +96,6 @@ def delete_asset():
         flash("Asset failed to delete.")
         #current_app.logger.warning('Username: %s failed to deleted an account', current_user.username)
         return redirect(url_for("manager.maintain_assets"))
-
-#Function to return all user account when you are loggined in as a admin user.
-@bp.route("/maintain_user")
-@login_required
-@check_is_manager
-def maintain_user():
-    try: 
-        admin= User.query.all()
-        #current_app.logger.info('Username: %s accessed admin', current_user.username)
-        return render_template('maintain_user.html',admin=admin)
-    except Exception as e: 
-        flash("An error occurred retrieving users.")
-        #current_app.logger.exception('Error during retrieving all users: %s', str(e))
-        return redirect(url_for('main.home'))
 
 @bp.route("/asset_history/<int:asset_id>", methods=['GET'])
 @login_required
@@ -128,6 +117,10 @@ def asset_history(asset_id):
                 branch_names[item.branch_id] = branch.branch_name
     except Exception as e: 
         flash("An error occurred retrieving assets.")
+        asset_history_items = []
+        asset_names = []
+        asset_description= []
+        branch_names=[]
     return render_template("asset_history.html", asset_history_items=asset_history_items, 
                            asset_names=asset_names, 
                            asset_description=asset_description, branch_names=branch_names)
@@ -182,9 +175,11 @@ def edit_order(order_id):
         try:
             db.session.commit()
             flash("Order updated successfully")
+            return redirect(url_for("manager.maintain_assets"))
         except Exception as e:
-            flash("An error occurred while updating order status: " + str(e))
-        return redirect(url_for('manager.maintain_orders'))
+            flash("An error occurred while updating order status")
+            return redirect(url_for("manager.maintain_orders"))
+       
 
     # Render the template for both GET and POST requests
     return render_template("edit_order.html", order=order, 

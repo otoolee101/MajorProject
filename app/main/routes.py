@@ -56,9 +56,10 @@ def borrow_asset():
         return render_template('borrow_asset.html', assets=assets)
     except Exception as e: 
         flash("An error occurred retrieving assets.")
-        return render_template("home.html")
+        return redirect(url_for("main.home"))
                   
 @bp.route('/add_to_cart/<int:asset_id>', methods=['GET', 'POST'])
+@login_required
 def add_to_cart(asset_id):
     if request.method == "POST": 
         add_item = Cart(username=current_user.username, asset_id=request.form.get("asset_id"), branch_id=current_user.branch_id)
@@ -72,26 +73,6 @@ def add_to_cart(asset_id):
         except:
             flash("Item failed to add.")
             return redirect(url_for('main.home'))
-  
-@bp.route("/order_history")
-@login_required
-def order_history():
-    try: 
-        order_history = Order.query.filter(Order.username == current_user.username).all()
-        # Create a dictionary to store asset names
-        asset_names = {}
-        asset_description = {}
-        # Fetch asset names corresponding to asset IDs in the cart
-        for item in order_history:
-            asset = Assets.query.filter_by(asset_id=item.asset_id).first()
-            if asset:
-                asset_names[item.asset_id] = asset.asset_name
-                asset_description[item.asset_id] = asset.asset_description
-
-        return render_template('order_history.html', order_history=order_history, asset_names=asset_names,asset_description=asset_description)
-    except Exception as e: 
-        flash("An error occurred retrieving assets.")
-    return redirect(url_for("main.home"))
 
 @bp.route("/view_cart")
 @login_required
@@ -137,7 +118,7 @@ def checkout():
             return redirect(url_for("main.home"))
         except Exception as e:
             db.session.rollback()
-            flash(f"Order failed to place: {str(e)}")
+            flash("Order failed to place.")
             return redirect(url_for('main.home'))
 
 @bp.route("/remove_item/<int:asset_id>", methods=['POST'])
@@ -161,3 +142,22 @@ def remove_item(asset_id,checked_out=False):
 
     return redirect(url_for("main.view_cart"))
 
+@bp.route("/order_history")
+@login_required
+def order_history():
+    try: 
+        order_history = Order.query.filter(Order.username == current_user.username).all()
+        # Create a dictionary to store asset names
+        asset_names = {}
+        asset_description = {}
+        # Fetch asset names corresponding to asset IDs in the cart
+        for item in order_history:
+            asset = Assets.query.filter_by(asset_id=item.asset_id).first()
+            if asset:
+                asset_names[item.asset_id] = asset.asset_name
+                asset_description[item.asset_id] = asset.asset_description
+
+        return render_template('order_history.html', order_history=order_history, asset_names=asset_names,asset_description=asset_description)
+    except Exception as e: 
+        flash("An error occurred retrieving assets.")
+    return redirect(url_for("main.home"))

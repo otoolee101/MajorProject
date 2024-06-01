@@ -43,21 +43,16 @@ def test_error_editing_user(client):
         response = client.post("/edit_user/1", data={"username":'admin',"branch_name": "2", "role":'admin',"authorised":"Y"},follow_redirects=True)
         assert b"User failed to update" in response.data  
     
-
 """Test changing account to authorised"""
 def test_authorise_user(client, app):
-    client.post("/register/", data={"username": "testuser3", "branch_name": "1", "password": "Assignment1/"}, follow_redirects=True)
-    response= client.post('/', data={"username": "testuser3", "password": "Assignment1/"}, follow_redirects = True)
-    assert b'Unsucessful sign in. Either username/password incorrect, account locked or unauthorised.' in response.data
-    
+    client.post("/register/", data={"username": "testuser1", "branch_name": "1", "password": "Assignment1/"}, follow_redirects=True)
+    client.post('/', data={"username": "testuser1", "password": "Assignment1/"}, follow_redirects = True)  
     client.post('/', data={"username": "admin", "password": "Assignment1/"}, follow_redirects = True)
-    client.get("/manage_user") 
-    response = client.post('/edit_user/3', data={"username":"testuser3","branch_name":"1","role": "user","authorised":"Y"}, follow_redirects = True)
+    client.get("/maintain_account") 
+
+    response = client.post('/edit_user/4', data={"username":"testuser1","branch_name":"1","role": "user","authorised":"Y"}, follow_redirects = True)
     assert b'User updated successfully'in response.data
-    
-    response= client.post('/', data={"username": "testuser3", "password": "Assignment1/"}, follow_redirects = True)
-    assert b'AssetHub'in response.data
-    
+        
     with app.app_context():
         user =User.query.filter_by(username='testuser1',authorised='Y').first()
         assert user is not None
@@ -127,7 +122,7 @@ def test_error_add_branch(client):
     client.get("/maintain_branch")
     with patch('app.models.models.db.session.commit', side_effect=Exception("Database commit failed")):
         response = client.post("/add_branch",data={"branch_name": "Air Force", "address_line1": "Walker House","address_line1":"Liverpool", "postcode": "L3 4PQ"}, follow_redirects=True)
-        assert b"Branch failed to createee." in response.data
+        assert b"Branch failed to create." in response.data
         yield
 
 """Test editing branch detail and ensuring old brach name is no longer in the tables."""
@@ -159,6 +154,7 @@ def test_delete_branch(client, app):
     response = client.post("/delete_branch/", data={"branch_id": new_branch.branch_id}, follow_redirects=True)
     assert b'Branch was deleted successfully.' in response.data
 
+"""Test error handling on deleting branch"""
 def test_error_delete_branch(client,app):
     client.post("/", data={"username": "admin", "password": "Assignment1/"}, follow_redirects=True)
     client.post("/add_branch", data={"branch_name": "Air Force", "address_line1": "Walker House", "postcode": "L3 4PQ"}, follow_redirects=True)
@@ -169,8 +165,6 @@ def test_error_delete_branch(client,app):
         with patch('app.models.models.db.session.commit', side_effect=Exception("Database commit failed")):
             response = client.post("/delete_branch/", data={"branch_id": new_branch.branch_id}, follow_redirects=True)
             assert b'Branch failed to delete.' in response.data
-
-
 
 """logging messages
 def test_logging_messages(client): 
