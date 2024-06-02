@@ -1,0 +1,46 @@
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Creating a boarder around the web page -->
+        <style>
+            body{
+                padding: 8px 5px 8px 5px;
+            }
+        </style>
+        <meta charset="utf-8" />
+                <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
+    </head>
+
+    <body>
+            <!--Place holder for where flashed messages will appear when something is submitted, updated or errored. -->
+    
+            <div class="flash">
+                {% for flash in get_flashed_messages() %}
+                <h1>{{ flash }}</h1>
+                {% endfor %}
+            </div>
+        </div>  
+        <div class="heading">
+            <h1>assetHub.</h1>  </div> 
+            <div class="navbar"></div> 
+        
+        <div class="login">   
+            <h1>Register Page</h1>
+        
+            <form method="POST" action="">
+            <div class="register">
+                {{ form.hidden_tag() }}
+                {{ form.username }}<br>
+                {{ form.branch_name }}<br>
+                {{ form.password }}<br>
+                <p>
+                {{ form.submit }}
+            </div>
+            </form>
+            <a href="{{ url_for('user.login') }}">Already have an account? Log In</a>
+        </div>
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}
+Asset History
+{% endblock %}
+{% block content %}
+<form method='get' action='/asset_history/{{asset_history_items.asset_id}}' ></form>
+{% if asset_history_items %}
+    <label>Asset Name</label> <input type='text' name='asset_name' size="10" required class='form-control' value="{{ asset_names[asset_history_items[0].asset_id] }}" readonly>
+    <label>Asset Description</label> <input type='text' name='asset_description' size="10" required class='form-control' value="{{ asset_description[asset_history_items[0].asset_id] }}" readonly>
+{% endif %}
+
+    <table class="table table-hover">
+    <thead class="active tables">
+      <th>Username</th>
+      <th>Branch</th>
+      <th>Check Out Date</th>
+      <th>Returned Date</th>
+      <th>Status</th>
+    </thead>
+    <tbody>
+      {% for asset_history_items in asset_history_items %}
+      <tr>
+            <td>{{ asset_history_items.username }}</td>
+            <td>{{ branch_names[asset_history_items.branch_id] }}</td>
+            <td>{{ asset_history_items.check_out_date }}</td>
+            <td>{{ asset_history_items.return_date }}</td>
+            <td>{{ asset_history_items.status }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="text-right">
+  <td><a href='{{ url_for("manager.maintain_assets")}}' class='btn btn-primary'>Back</a></td>
+  </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}
+AssetHub
+{% endblock %}
+{% block content %}
+<br>
+<br>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <a href='{{url_for("main.borrow_asset")}}' class='btn btn-info  btn-block'>Borrow Asset</a>
+    </div>
+    <div class="col-md-6">
+      <a href='{{url_for("main.return_asset")}}' class='btn btn-danger btn-block'>Return Asset</a>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+{% endblock %}

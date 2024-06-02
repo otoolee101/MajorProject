@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block title %}
+Add Branch
+{% endblock %}
+{% block content %}
+<div class="add_branch">
+    <form method='post' action='/add_branch'>
+    <label>Branch Name:</label>
+    <br>
+        <input type='text' name='branch_name' size="100" required class='form-control' oninput="this.value=this.value.replace(/[^a-zA-Z0-9\s]/g, '')"
+        >
+    <p></p>
+    <label>Address Line 1:</label>
+    <br>
+        <input type='text' name='address_line1' size="100" required class='form-control' oninput="this.value=this.value.replace(/[^a-zA-Z0-9\s]/g, '')"
+        >
+    <p></p>
+    <label>Address Line 2:</label>
+    <br>
+        <input type='text' name='address_line2' size="100"  class='form-control' oninput="this.value=this.value.replace(/[^a-zA-Z0-9\s]/g, '')"
+        >
+    <p></p>
+    <label>Postcode:</label>
+    <br>
+        <input type='text' name='postcode' size="100" required class='form-control'  oninput="this.value=this.value.replace(/[^a-zA-Z0-9\s]/g, '')">
+    <p></p>
+    <p></p>
+    <input type='submit' value='Submit' class='btn btn-primary'>
+    <input type="reset" value="Reset" class='btn btn-primary'>
+</form>
+{% endblock %}

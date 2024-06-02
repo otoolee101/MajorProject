@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}
+Cart
+{% endblock %}
+{% block content %}
+
+<table class="table table-hover">
+    <thead class="active tables">
+      <th>ID</th>
+      <th>Asset Name</th>
+      <th>Asset Description</th>
+    </thead>
+    <tbody>
+      {% for view_cart in view_cart %}
+      <tr>
+            <td>{{ view_cart.asset_id }}</td>
+            <td>{{ asset_names[view_cart.asset_id] }}</td>
+            <td>{{ asset_description[view_cart.asset_id ] }}</td>
+            <td>
+                <form method="POST" action="/remove_item/{{ view_cart.asset_id }}">
+                    <input type="hidden" value="{{view_cart.asset_id}}" name="asset_id">
+                    <input type="submit" class='btn btn-primary' value="Remove" onclick='return confirm("Are you sure you want to remove this item from your cart?")'>
+                </form>
+            </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <form method="POST" action="/checkout">
+    <input type="hidden" value="{{view_cart.cart_id}}" name="cart_id">
+    <input type="submit" class='btn btn-primary' value='Check Out'>
+  </form>
+{% endblock %}

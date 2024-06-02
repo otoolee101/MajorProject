@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}
+Borrow Assets
+{% endblock %}
+{% block content %}
+
+<table class="table table-hover">
+    <thead class="active tables">
+      <th>ID</th>
+      <th>Asset Name</th>
+      <th>Asset Description</th>
+      <th>Keywords</th>
+      <th>Add to Cart</th>
+    </thead>
+    <tbody>
+      {% for asset in assets %}
+      <tr>
+        <td>{{asset.asset_id}}</td>
+        <td>{{asset.asset_name}}</td>
+        <td>{{asset.asset_description}}</td>
+        <td>{{asset.keyword}}</td>
+        <td>
+          <form method="post" action="/add_to_cart/{{ asset.asset_id }}">
+            <input type="hidden" value="{{asset.asset_id}}" name="asset_id">
+            <input type="submit" value="Add to Cart" class="btn btn-primary">
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

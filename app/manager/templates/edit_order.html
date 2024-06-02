@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}
+Edit Order
+{% endblock %}
+{% block content %}
+<div class="edit_user">
+    <form method='post' action='/edit_order/{{order.order_id}}'>
+            <label>Asset Name:</label>
+            <br>
+                <input type='text' name='asset_names' size="100" required class='form-control' value='{% if order.asset_id in asset_names %}{{ asset_names[order.asset_id] }}{% endif %}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')" readonly>
+            <p></p>
+            <label>Asset Description:</label>
+            <br>
+                <input type='text' name='asset_description' size="100" required class='form-control' value='{% if order.asset_id in asset_description %}{{ asset_description[order.asset_id] }}{% endif %}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')" readonly>
+            <p></p>
+            <label>Username:</label>
+            <br>
+                <input type='text' name='username' size="100" required class='form-control' value='{{ order.username }}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')" readonly>
+            <p></p>
+            <label>Branch:</label>
+            <br>
+                <input type='text' name='branch_name' size="100" required class='form-control' value='{% if order.branch_id in branch_names %}{{ branch_names[order.branch_id] }}{% endif %}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')" readonly>
+            <p></p>
+            <label>Date Placed:</label>
+            <br>
+                <input type='text' name='check_out_date' size="100" required class='form-control' value='{{ order.check_out_date }}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')" readonly>
+            <p></p>
+            <label>Status:</label>
+            <br>
+            <select name="status" id="status" class='form-control'>
+                <option value = "{{order.status}}">{{order.status}}</option>
+                <option value="Order Placed">Order Placed</option>
+                <option value="Order Shipped">Order Shipped</option>
+                <option value="Order Delivered">Order Delivered</option>
+                <option value="Returned">Returned </option>
+            </select>
+
+            <p></p>
+            <input type='submit' value='Update' class='btn btn-primary'>
+            <input type="reset" value="Reset" class='btn btn-primary'>
+    </form>
+    <div class="text-right">
+        <td><a href='{{ url_for("manager.maintain_orders")}}' class='btn btn-primary'>Back</a></td>
+    </div>
+{% endblock %}

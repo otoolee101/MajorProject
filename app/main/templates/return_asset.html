@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}
+Return Asset
+{% endblock %}
+{% block content %}
+
+<table class="table table-hover">
+    <thead class="active tables">
+        <th>Asset Name</th>
+        <th>Asset Description</th>
+        <th>Check Out Date</th>
+        <th>Status</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        {% for return_asset in return_assets %}
+        <tr>
+            <td>{{ asset_names[return_asset.asset_id] }}</td>
+            <td>{{ asset_descriptions[return_asset.asset_id] }}</td>
+            <td>{{ return_asset.check_out_date }}</td>
+            <td>{{ return_asset.status }}</td>
+            <td>
+                <form method="post" action="/return_asset/">
+                    <input type="hidden" value="{{ return_asset.asset_id }}" name="asset_id">
+                    <input type="hidden" value="{{ return_asset.order_id }}" name="order_id">
+                    <input type="submit" value="Return" class="btn btn-primary">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

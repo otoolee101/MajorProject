@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}
+Admin
+{% endblock %}
+{% block content %}
+<div class="edit_user">
+    <form method='post' action='/edit_user/{{admin.id}}'>
+            <label>Username:</label>
+            <br>
+                <input type='text' name='username' size="100" required class='form-control' value='{{admin.username}}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">
+            <p></p>
+            <label>Branch:</label>
+            <br>
+                <input type='text' name='branch_name' size="100" required class='form-control' value='{{ branch_names[admin.branch_id] }}' oninput="this.value=this.value.replace(/[^a-zA-Z0-9]/g, '')">
+            <p></p>
+            <label>Role:</label>
+            <br>
+            <select name="role" id="role" class='form-control'>
+                <option value = "{{admin.role}}">{{admin.role}}</option>
+                <option value="admin">admin</option>
+                <option value="manager">manager</option>
+                <option value="user">user</option>
+            </select>
+            <p></p>
+            <label>Authorised:</label>
+            <br>
+            <select name="authorised" id="authorised" class='form-control'>
+                <option value = "{{admin.authorised}}">{{admin.authorised}}</option>
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
+            </select>
+            <p></p>
+            <input type='submit' value='Edit' class='btn btn-primary'>
+            
+    </form>
+    <div class="text-right">
+        <td><a href='{{ url_for("admin.maintain_user")}}' class='btn btn-primary'>Back</a></td>
+    </div>
+{% endblock %}

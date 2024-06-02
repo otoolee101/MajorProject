@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}
+Add Asset
+{% endblock %}
+{% block content %}
+<div class="add_asset">
+    <form method='post' action="{{url_for('manager.add_asset')}}" >
+            <label>Asset Name:</label>
+            <br>
+            <input type='text' name='asset_name' size="10" required class='form-control'>
+            <label>Asset Description:</label>
+            <br>
+            <input type='text' name='asset_description' size="10" class='form-control'>
+            <label>Asset Keywords:</label>
+            <br>
+            <input type='text' name='keyword' size="10" required class='form-control'>
+            <p></p>
+            <input type='submit' value='Submit' class='btn btn-primary'>
+            <input type="reset" value="Reset" class='btn btn-primary'>
+    </form>
+</div>
+{% endblock %}

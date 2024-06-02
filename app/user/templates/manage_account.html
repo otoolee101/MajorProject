@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}
+Edit Account
+{% endblock %}
+{% block content %}
+<p>Existing user details:</p>
+<div class='manage_account'>
+    <form method='post' action='/manage_account'>
+        <label>Username:</label>
+        <br>
+        <input type='text' name='username' size="10" required class='form-control' value='{{ current_user.username }}' readonly>
+        <label>Branch:</label>
+        <br>
+        <select name="branch_id" class='form-control'>
+            {% for branch in branches %}
+                <option value="{{ branch.branch_id }}" {% if edit_account.branch_id == branch.branch_id %}selected{% endif %}>{{ branch.branch_name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type='submit' value='Update' class='btn btn-primary'>
+    </form>
+</div>
+{% endblock %}
