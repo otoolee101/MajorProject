@@ -87,7 +87,7 @@ def register():
         except Exception as e: 
             flash("There has been a problem creating your user. Please contact system administration for assistance.")
             current_app.logger.warning('Failure to create a user account')
-            return render_template("register.html")
+            return render_template("register.html",form=form)
        
     return render_template('register.html', form=form)
 

@@ -116,14 +116,13 @@ def test_add_branch(client, app):
         branch =Branch.query.filter_by(branch_name='Air Force').first()
         assert branch is not None
         
-"""Testing exception handling for add branch""" """
-def test_error_add_branch(client):
+"""Testing exception handling for add branch"""
+def test_error_add_branchh(client):
     client.post("/", data={"username": "admin", "password": "Assignment1/"}, follow_redirects=True)
     client.get("/maintain_branch")
     with patch('app.models.models.db.session.commit', side_effect=Exception("Database commit failed")):
         response = client.post("/add_branch",data={"branch_name": "Air Force", "address_line1": "Walker House","address_line1":"Liverpool", "postcode": "L3 4PQ"}, follow_redirects=True)
         assert b"Branch failed to create." in response.data
-        yield """
 
 """Test editing branch detail and ensuring old brach name is no longer in the tables."""
 def test_edit_branch(client, app):
@@ -166,9 +165,33 @@ def test_error_delete_branch(client,app):
             response = client.post("/delete_branch/", data={"branch_id": new_branch.branch_id}, follow_redirects=True)
             assert b'Branch failed to delete.' in response.data
 
-"""logging messages
+"""Test error handling on update branch"""
+def test_error_update_branch(client,app):
+    client.post("/", data={"username": "admin", "password": "Assignment1/"}, follow_redirects=True)
+    client.post("/add_branch", data={"branch_name": "Air Force", "address_line1": "Walker House", "postcode": "L3 4PQ"}, follow_redirects=True)
+
+    with app.app_context():
+        new_branch = Branch.query.filter_by(branch_name="Air Force").first()
+        assert new_branch is not None 
+        with patch('app.models.models.db.session.commit', side_effect=Exception("Database commit failed")):
+             client.get("/maintain_branch")
+             response = client.get("/edit_branch/1")
+             assert b'Edit Branch' in response.data
+             response = client.post('/edit_branch/1', data={"branch_name":"Air","address_line1":"Walkers", "address_line2":"no", "postcode":"L2"}, follow_redirects = True)
+             assert b'Branch failed to update' in response.data
+
+"""Test error handling for viewing all branchs"""
+def test_error_viewing_branchs(client, monkeypatch):
+    def mock_query_filter_by(*args, **kwargs):
+        raise Exception("Database query failed")
+    monkeypatch.setattr(Branch, 'query', type('FakeQuery', (), {'filter_by': mock_query_filter_by}))
+    client.post("/", data={"username": "admin", "password": "Assignment1/"}, follow_redirects=True)
+    response = client.get("/maintain_branch",follow_redirects=True )
+    assert b"An error occurred retrieving branches." in response.data
+
+"""Test logging messages"""
 def test_logging_messages(client): 
-    response= client.post("/", data={"username": "admin", "password": "Assignment1/"}, follow_redirects=True)
-    print(response.data)
+    client.post("/", data={"username": "admin", "password": "Assignment1/"}, follow_redirects=True)
+    response = client.get ("/logging_messages", follow_redirects=True)
+
     assert b'Username: admin logged in successfully' in response.data
-"""
