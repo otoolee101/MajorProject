@@ -5,7 +5,10 @@ name: Python application
 
 on:
   push:
-    branches: [ "master" ]
+    branches: 
+      - master
+      - Development
+      - Test
   pull_request:
     branches: [ "master" ]
 
@@ -18,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -37,3 +40,46 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+
+  deploy_production:
+    name: Deploy to Production
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.MASTER_SERVICE_ID }}
+          api-key: ${{ secrets.MP_MASTER_API_KEY }}
+          PROD_APP_SETTINGS: ${{ secrets.MASTER_APP_SETTINGS }}
+          #DATABASE_URI: ${{ secrets.DATABASE_URL }}
+          wait-for-success: true
+
+  deploy_development:
+    name: Deploy to Development
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/Development'
+    steps:
+      - name: Deploy to Development
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.DEVELOPMENT_SERVICE_ID }}
+          api-key: ${{ secrets.MP_DEV_API_KEY}}
+          PROD_APP_SETTINGS: ${{ secrets.DEVELOPMENT_APP_SETTING }}
+          wait-for-success: true
+
+  deploy_test:
+    name: Deploy to Test
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/Test'
+    steps:
+      - name: Deploy to Test
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.TEST_SERVICE_ID }}
+          api-key: ${{ secrets.MP_TEST_API_KEY}}
+          PROD_APP_SETTINGS: ${{ secrets.TEST_APP_SETTING }}
+          wait-for-success: true

@@ -11,4 +11,4 @@ Flask shell
 >>> db.session.add(admin,branch)
 >>> db.session.commit()
 >>> exit() 
-test git actions
+

@@ -100,14 +100,14 @@ def test_update_branch_id(client, app):
         user = User.query.filter_by(username='testuser', branch_id='2' ).first()
         assert user is not None
 
-"""Test expection handling for viewing account"""
+"""Test expection handling for viewing account""" """
 def test_error_manage_account(client):
     client.post("/", data={"username": "testuser", "password": "Assignment1/"}, follow_redirects=True)
     
     with patch('app.models.models.db.session.commit', side_effect=Exception("Database commit failed")):
         response = client.post("/manage_account", data={"branch_id": "2"},follow_redirects=True)
         assert b"There has been a problem viewing your account. Please contact system administration for assistance." in response.data  
-
+"""
 """Test expection handling when editing an account"""
 def test_error_editing_account(client):
     client.post("/", data={"username": "testuser", "password": "Assignment1/"}, follow_redirects=True)
