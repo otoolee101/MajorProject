@@ -144,7 +144,11 @@ def maintain_orders():
                 asset_description[item.asset_id] = asset.asset_description
                 branch_names[item.branch_id] = branch.branch_name
     except Exception as e: 
-        flash("An error occurred retrieving assets.")
+        flash("An error occurred retrieving orders.")
+        order = []
+        asset_names = []
+        asset_description= []
+        branch_names=[]
     return render_template("maintain_orders.html", order=order, 
                            asset_names=asset_names, 
                            asset_description=asset_description,branch_names=branch_names)
@@ -175,13 +179,12 @@ def edit_order(order_id):
         try:
             db.session.commit()
             flash("Order updated successfully")
-            return redirect(url_for("manager.maintain_assets"))
+            return redirect(url_for("manager.maintain_orders"))
         except Exception as e:
             flash("An error occurred while updating order status")
             return redirect(url_for("manager.maintain_orders"))
-       
-
-    # Render the template for both GET and POST requests
+            
+  
     return render_template("edit_order.html", order=order, 
                            asset_names=asset_names, 
                            asset_description=asset_description,

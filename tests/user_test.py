@@ -54,13 +54,12 @@ def test_logging_in_without_an_account(client,app):
         assert user is None
 
 """Test expection handling when registering an account"""
-def test_error_registering_user(client):
-    response = client.get('/register/')
-    assert b'<h1>Register Page</h1>' in response.data
-
-    with pytest.raises(Exception):
-        response = client.post("/register/", data = {"username": "testuser", "branch_name": "1", "password": "Assignment1/"}, follow_redirects=True)
+def test_error_registering(client):
+    client.get("/register/")
+    with patch('app.models.models.db.session.commit', side_effect=Exception("Database commit failed")):
+        response = client.post("/register/", data = {"username": "testuser3", "branch_name": "1", "password": "Assignment1/"}, follow_redirects=True)
         assert b'There has been a problem creating your user. Please contact system administration for assistance.' in response.data
+
 
 """Test entering an incorrect password into an exisiting user"""
 def test_incorrect_password(client, app): 
@@ -100,21 +99,23 @@ def test_update_branch_id(client, app):
         user = User.query.filter_by(username='testuser', branch_id='2' ).first()
         assert user is not None
 
-"""Test expection handling for viewing account""" """
-def test_error_manage_account(client):
+"""Test expection handling for viewing account"""
+def test_error_viewing_manage_account(client):
     client.post("/", data={"username": "testuser", "password": "Assignment1/"}, follow_redirects=True)
-    
-    with patch('app.models.models.db.session.commit', side_effect=Exception("Database commit failed")):
-        response = client.post("/manage_account", data={"branch_id": "2"},follow_redirects=True)
-        assert b"There has been a problem viewing your account. Please contact system administration for assistance." in response.data  
-"""
+    with patch('app.user.routes.User.query') as mock_user_query:
+        mock_user = mock_user_query.get_or_404.return_value
+        mock_user.authorised = 'Y'
+        mock_user.username = 'manager'
+        response = client.get("/manage_account",follow_redirects=True)
+        assert b"You are not authorised to access this page" in response.data
+
 """Test expection handling when editing an account"""
-def test_error_editing_account(client):
+def test_error_editing_acountt(client):
     client.post("/", data={"username": "testuser", "password": "Assignment1/"}, follow_redirects=True)
-    
-    with pytest.raises(Exception):
-        response = client.post("/edit_account/1", data={"username": "testuser","branch_id": "1"},follow_redirects=True)
-        assert b'Account failed to update' in response.data
+    with patch('app.models.models.db.session.commit', side_effect=Exception("Database commit failed")):
+       response = client.post("/manage_account", data={"username": "testuser","branch_id": "1"},follow_redirects=True)
+       assert b'Account failed to update' in response.data
+
 
 """Test logout"""
 def test_logout(client): 
@@ -124,6 +125,8 @@ def test_logout(client):
 
     response = client.get('/logout/', follow_redirects=True)
     assert b'<h1>Login Page</h1>' in response.data
+
+
 
 """Test booker times out after 60 seconds of inactivity
 def test_timeout(client): 

@@ -54,7 +54,7 @@ def test_edit_asset(client, app):
             asset =Assets.query.filter_by(asset_name='Boeing 737',asset_description='plane for cargo').first()
             assert asset is not None
 
-"""Test error handling for edit asset""""""
+"""Test error handling for edit asset"""
 def test_edit_asset_exceptionn(client, monkeypatch):
     def mock_commit(*args, **kwargs):
         raise Exception("Database commit failed")
@@ -64,15 +64,6 @@ def test_edit_asset_exceptionn(client, monkeypatch):
     monkeypatch.setattr(db.session, 'commit', mock_commit)
     response = client.post(f"/edit_asset/{1}", data={"asset_name": "Ship", "asset_description": "plane for cargo", "keyword": "Airplane", "available": "Y"}, follow_redirects=True)
     assert b"Asset failed to update" in response.data
-    yield
-
-    def mock_commit(*args, **kwargs):
-        raise Exception("Database commit failed")
-    with patch('app.manager.routes.db.session.commit', mock_commit):
-        client.post("/", data={"username": "manager", "password": "Assignment1/"}, follow_redirects=True)
-        response = client.post(f"/edit_asset/{1}", data={"asset_name": "Ship", "asset_description": "plane for cargo", "keyword": "Airplane", "available": "Y"}, follow_redirects=True)
-        assert b"Asset failed to update" in response.data"""
-
 
 """Testing delete asset"""    
 def test_delete_asset(client,app): 
@@ -141,11 +132,35 @@ def test_editing_orders(client, app):
             order=Order.query.filter_by(asset_id='1', status = 'Order Shipped').first()
             assert order is not None
 
-"""Test error handling of editing an order as a manager""" """
-def test_edit_order_exception(client, app):
+"""Test error handling of editing an order as a manager"""
+def test_edit_order_exceptionnn(client, monkeypatch):
     def mock_commit(*args, **kwargs):
         raise Exception("Database commit failed")
-    with patch('app.manager.routes.db.session.commit', mock_commit):
-        client.post("/", data={"username": "manager", "password": "Assignment1/"}, follow_redirects=True)
-        response = client.get("/edit_order/1",follow_redirects=True)
-        assert b"An error occurred while updating order status" in response.data"""
+    response= client.post("/", data={"username": "manager", "password": "Assignment1/"}, follow_redirects=True)
+    assert b"AssetHub" in response.data
+    asset = Assets.query.filter_by(asset_name='Ship').first()
+    client.post(f"/add_to_cart/{asset.asset_id}", data={"asset_id": asset.asset_id}, follow_redirects=True)
+    client.post ("/checkout", follow_redirects=True)
+    monkeypatch.setattr(db.session, 'commit', mock_commit)
+    response= client.post(f"/edit_order/{asset.asset_id}", data={"asset_id": asset.asset_id, "status":"Order Shipped"}, follow_redirects=True)
+
+    assert b"An error occurred while updating order status" in response.data
+
+"""Test error handling for viewing all assets"""
+def test_error_viewing_assets(client, monkeypatch):
+    def mock_query_filter_by(*args, **kwargs):
+        raise Exception("Database query failed")
+    monkeypatch.setattr(Assets, 'query', type('FakeQuery', (), {'filter_by': mock_query_filter_by}))
+    client.post("/", data={"username": "manager", "password": "Assignment1/"}, follow_redirects=True)
+    response = client.get("/maintain_assets",follow_redirects=True )
+    assert b"An error occurred retrieving assets." in response.data
+
+"""Test error handing for viewing all orders"""
+def test_error_viewing_orders(client, monkeypatch):
+    def mock_query_filter_by(*args, **kwargs):
+        raise Exception("Database query failed")
+    monkeypatch.setattr(Order, 'query', type('FakeQuery', (), {'filter_by': mock_query_filter_by}))
+    client.post("/", data={"username": "manager", "password": "Assignment1/"}, follow_redirects=True)
+    response = client.get("/maintain_orders",follow_redirects=True )
+    assert b"An error occurred retrieving orders." in response.data
+
