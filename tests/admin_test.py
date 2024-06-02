@@ -116,14 +116,14 @@ def test_add_branch(client, app):
         branch =Branch.query.filter_by(branch_name='Air Force').first()
         assert branch is not None
         
-"""Testing exception handling for add branch"""
+"""Testing exception handling for add branch""" """
 def test_error_add_branch(client):
     client.post("/", data={"username": "admin", "password": "Assignment1/"}, follow_redirects=True)
     client.get("/maintain_branch")
     with patch('app.models.models.db.session.commit', side_effect=Exception("Database commit failed")):
         response = client.post("/add_branch",data={"branch_name": "Air Force", "address_line1": "Walker House","address_line1":"Liverpool", "postcode": "L3 4PQ"}, follow_redirects=True)
         assert b"Branch failed to create." in response.data
-        yield
+        yield """
 
 """Test editing branch detail and ensuring old brach name is no longer in the tables."""
 def test_edit_branch(client, app):

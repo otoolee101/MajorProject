@@ -54,7 +54,7 @@ def test_edit_asset(client, app):
             asset =Assets.query.filter_by(asset_name='Boeing 737',asset_description='plane for cargo').first()
             assert asset is not None
 
-"""Test error handling for edit asset"""
+"""Test error handling for edit asset""""""
 def test_edit_asset_exceptionn(client, monkeypatch):
     def mock_commit(*args, **kwargs):
         raise Exception("Database commit failed")
@@ -71,7 +71,7 @@ def test_edit_asset_exceptionn(client, monkeypatch):
     with patch('app.manager.routes.db.session.commit', mock_commit):
         client.post("/", data={"username": "manager", "password": "Assignment1/"}, follow_redirects=True)
         response = client.post(f"/edit_asset/{1}", data={"asset_name": "Ship", "asset_description": "plane for cargo", "keyword": "Airplane", "available": "Y"}, follow_redirects=True)
-        assert b"Asset failed to update" in response.data
+        assert b"Asset failed to update" in response.data"""
 
 
 """Testing delete asset"""    
@@ -141,11 +141,11 @@ def test_editing_orders(client, app):
             order=Order.query.filter_by(asset_id='1', status = 'Order Shipped').first()
             assert order is not None
 
-"""Test error handling of editing an order as a manager"""
+"""Test error handling of editing an order as a manager""" """
 def test_edit_order_exception(client, app):
     def mock_commit(*args, **kwargs):
         raise Exception("Database commit failed")
     with patch('app.manager.routes.db.session.commit', mock_commit):
         client.post("/", data={"username": "manager", "password": "Assignment1/"}, follow_redirects=True)
         response = client.get("/edit_order/1",follow_redirects=True)
-        assert b"An error occurred while updating order status" in response.data
+        assert b"An error occurred while updating order status" in response.data"""
