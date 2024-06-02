@@ -11,4 +11,8 @@ Flask shell
 >>> db.session.add(admin,branch)
 >>> db.session.commit()
 >>> exit() 
+<<<<<<< HEAD
 test git actions ..
+=======
+test git actions
+>>>>>>> origin/Test
