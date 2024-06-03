@@ -129,29 +129,39 @@ def asset_history(asset_id):
 @login_required
 @check_is_manager
 def maintain_orders():
-    try: 
-        order = Order.query.all()
-        # Create a dictionary to store asset names
+    try:
+        new_order = Order.query.filter(Order.status == 'Order Placed').all()
+        active_order = Order.query.filter(Order.status.in_(['Order Shipped', 'Order Delivered'])).all()
+        past_order = Order.query.filter(Order.status == 'Returned').all()
+        
+        # Create dictionaries to store asset names and descriptions and branch names
         asset_names = {}
         asset_description = {}
         branch_names = {}
-        # Fetch asset names corresponding to asset IDs in the cart
-        for item in order:
+        
+        # Fetch asset and branch names and descriptions corresponding to asset IDs and branch IDs
+        orders = new_order + active_order + past_order
+        for item in orders:
             asset = Assets.query.filter_by(asset_id=item.asset_id).first()
             branch = Branch.query.filter_by(branch_id=item.branch_id).first()
             if asset:
                 asset_names[item.asset_id] = asset.asset_name
                 asset_description[item.asset_id] = asset.asset_description
+            if branch:
                 branch_names[item.branch_id] = branch.branch_name
-    except Exception as e: 
-        flash("An error occurred retrieving orders.")
-        order = []
-        asset_names = []
-        asset_description= []
-        branch_names=[]
-    return render_template("maintain_orders.html", order=order, 
-                           asset_names=asset_names, 
-                           asset_description=asset_description,branch_names=branch_names)
+
+    except Exception as e:
+        flash(f"An error occurred retrieving orders.")
+        new_order = []
+        active_order = []
+        past_order = []
+        asset_names = {}
+        asset_description = {}
+        branch_names = {}
+        return redirect(url_for("main.home"))
+    
+    return render_template("maintain_orders.html", new_order=new_order, active_order=active_order,past_order=past_order,
+                           asset_names=asset_names, asset_description=asset_description,branch_names=branch_names)
 
 
 @bp.route("/edit_order/<int:order_id>", methods=['GET', 'POST'])

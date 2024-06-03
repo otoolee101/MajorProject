@@ -146,18 +146,20 @@ def remove_item(asset_id,checked_out=False):
 @login_required
 def order_history():
     try: 
-        order_history = Order.query.filter(Order.username == current_user.username).all()
+        current_order_history = Order.query.filter(Order.username == current_user.username, Order.status != 'Returned').all()
+        past_order_history = Order.query.filter(Order.username == current_user.username,Order.status == 'Returned').all()
         # Create a dictionary to store asset names
         asset_names = {}
         asset_description = {}
         # Fetch asset names corresponding to asset IDs in the cart
-        for item in order_history:
+        for item in current_order_history + past_order_history :
             asset = Assets.query.filter_by(asset_id=item.asset_id).first()
             if asset:
                 asset_names[item.asset_id] = asset.asset_name
                 asset_description[item.asset_id] = asset.asset_description
 
-        return render_template('order_history.html', order_history=order_history, asset_names=asset_names,asset_description=asset_description)
+        return render_template('order_history.html', current_order_history=current_order_history, asset_names=asset_names,asset_description=asset_description, past_order_history=past_order_history)
     except Exception as e: 
-        flash("An error occurred retrieving assets.")
+        flash("An error occurred retrieving orders.")
     return redirect(url_for("main.home"))
+
