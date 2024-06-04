@@ -5,6 +5,7 @@ from app.admin import bp
 from app.extensions import db
 from app.models.models import User, Branch
 
+
 #Function checks if user is of the role admin when attempting to access centain functions. 
 #If they are not it will return them to the reserve_parking page and put a line in the log.
 def check_is_admin(func):
@@ -18,6 +19,14 @@ def check_is_admin(func):
             return redirect(url_for("main.home"))
     return decorated_function
 
+def get_branch_details(branches):
+    branch_names = {}
+    for branch in branches:
+        branch = Branch.query.filter_by(branch_id=branch.branch_id).first()
+        if branch:
+            branch_names[branch.branch_id] = branch.branch_name
+    return branch_names
+
 #Function to return all user account when you are loggined in as a admin user.
 @bp.route("/maintain_user", methods=['GET'])
 @login_required
@@ -25,14 +34,12 @@ def check_is_admin(func):
 def maintain_user():
     try: 
         admins = User.query.all()
-        branch_names = {}
-        for admin in admins:
-            branch = Branch.query.filter_by(branch_id=admin.branch_id).first()
-            if branch:
-                branch_names[admin.branch_id] = branch.branch_name
+        current_app.logger.info('Username: %s access maintain users', current_user.username)
+        branch_names = get_branch_details(admins)
         return render_template('maintain_user.html', admins=admins, branch_names=branch_names)
     except Exception as e: 
         flash("An error occurred retrieving users.")
+        current_app.logger.warning('There was an error retrieving users on maintain users')
         return redirect(url_for('main.home'))
     
 #Function to be able to edit a username or role
@@ -48,7 +55,7 @@ def edit_user(id):
                 branch_names[admin.branch_id] = branch.branch_name
 
     if request.method == "POST":
-        #current_app.logger.info('Username: %s accessed edit_user', current_user.username)
+        current_app.logger.info('Username: %s accessed edit_user', current_user.username)
         admin.username = request.form['username']
         admin.branch_name = request.form['branch_name']
         admin.role = request.form['role']
@@ -57,13 +64,12 @@ def edit_user(id):
         #Save update to database
         try:
             db.session.commit()
-           # current_app.logger.info('Username: %s updated user account %s', current_user.username, admin.username)
+            current_app.logger.info('Username: %s updated user account %s', current_user.username, admin.username)
             flash("User updated successfully")
             return redirect(url_for("admin.maintain_user"))
         except Exception as e:
-            #current_app.logger.exception(e)
             flash("User failed to update")
-           # current_app.logger.warning('Username: %s failed to update user account %s', current_user.username, admin.username)
+            current_app.logger.warning('Username: %s failed to update user account %s', current_user.username, admin.username)
             return render_template("edit_user.html", admin=admin,branch_names=branch_names)
             
     else:
@@ -80,13 +86,13 @@ def delete_user():
 
     try:
         db.session.delete(delete_user)
-        #current_app.logger.warning('Username: %s deleted %s account', current_user.username, delete_user.username)
+        current_app.logger.info('Username: %s deleted %s account', current_user.username, delete_user.username)
         db.session.commit()
         flash("User was deleted successfully.")
         return redirect(url_for("admin.maintain_user"))
     except Exception as e:
         flash("User failed to delete.")
-        #current_app.logger.warning('Username: %s failed to deleted an account', current_user.username)
+        current_app.logger.warning('Username: %s failed to deleted an account', current_user.username)
         return render_template("maintain_user.html")
 
 @bp.route("/maintain_branch")
@@ -95,11 +101,11 @@ def delete_user():
 def maintain_branch():
     try: 
         branch= Branch.query.all()
-        #current_app.logger.info('Username: %s accessed admin', current_user.username)
+        current_app.logger.info('Username: %s accessed maintain branches', current_user.username)
         return render_template('maintain_branch.html',branch=branch)
     except Exception as e: 
         flash("An error occurred retrieving branches.")
-        #current_app.logger.exception('Error during retrieving all users: %s', str(e))
+        current_app.logger.warning('Error during retrieving all users: %s', str(e))
         return redirect(url_for('main.home'))
 
 @bp.route("/add_branch",methods=['GET','POST'])
@@ -111,12 +117,12 @@ def add_branch():
         try:
             db.session.add(add_branch)
             db.session.commit()
-            #current_app.logger.info('Username: %s created a new booking in reserve_parking', current_user.username)
+            current_app.logger.info('Username: %s created a new branch', current_user.username)
             flash("Branch added successfully.")
             return redirect(url_for("admin.maintain_branch"))
         except Exception as e:
             flash("Branch failed to create.")
-            #current_app.logger.exception('Username: %s had a failure when creating a booking for reserve_parking: %s', current_user.username)
+            current_app.logger.warning('Username: %s had a failure when creating a new branch', current_user.username)
             return redirect(url_for("admin.maintain_branch"))
     else:
         return render_template("add_branch.html")
@@ -129,7 +135,7 @@ def edit_branch(branch_id):
     branch = Branch.query.get_or_404(branch_id) 
 
     if request.method == "POST":
-        #current_app.logger.info('Username: %s accessed edit_user', current_user.username)
+        current_app.logger.info('Username: %s accessed edit_branch', current_user.username)
         branch.branch_name = request.form['branch_name']
         branch.address_line1 = request.form['address_line1']
         branch.address_line2 = request.form['address_line2']
@@ -138,13 +144,12 @@ def edit_branch(branch_id):
         #Save update to database
         try:
             db.session.commit()
-           # current_app.logger.info('Username: %s updated user account %s', current_user.username, admin.username)
+            current_app.logger.info('Username: %s updated branch %s', current_user.username, branch.branch_id)
             flash("Branch updated successfully")
             return redirect(url_for("admin.maintain_branch"))
         except Exception as e:
-            #current_app.logger.exception(e)
             flash("Branch failed to update")
-           # current_app.logger.warning('Username: %s failed to update user account %s', current_user.username, admin.username)
+            current_app.logger.warning('Username: %s failed to update branch %s', current_user.username, branch.branch_id)
             return redirect(url_for("admin.maintain_branch"))
             
     else:
@@ -159,13 +164,13 @@ def delete_branch():
 
     try:
         db.session.delete(delete_branch)
-        #current_app.logger.warning('Username: %s deleted %s account', current_user.username, delete_user.username)
+        current_app.logger.info('Username: %s deleted %s branch', current_user.username, delete_branch.branch_id)
         db.session.commit()
         flash("Branch was deleted successfully.")
         return redirect(url_for("admin.maintain_branch"))
     except Exception as e:
         flash("Branch failed to delete.")
-        #current_app.logger.warning('Username: %s failed to deleted an account', current_user.username)
+        current_app.logger.warning('Username: %s failed to deleted branch', current_user.username)
         return redirect(url_for("admin.maintain_branch"))
     
 #Function to return logged messages

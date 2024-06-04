@@ -3,7 +3,35 @@
 Maintain Orders
 {% endblock %}
 {% block content %}
-
+<h1>New Orders</h1>
+<table class="table table-hover">
+    <thead class="new tables">
+        <th>Order Id</th>
+        <th>Asset Name</th>
+        <th>Asset Description</th>
+        <th>Username</th>
+        <th>Branch</th>
+        <th>Date Placed</th>
+        <th>Status</th>
+        <th>Edit</th>
+        
+    </thead>
+    <tbody>
+        {% for new_order in new_order %}
+        <tr>
+            <td>{{ new_order.order_id }}</td>
+            <td>{{ asset_names[new_order.asset_id] }}</td>
+            <td>{{ asset_description[new_order.asset_id] }}</td>
+            <td>{{ new_order.username }}</td>
+            <td>{{ branch_names[new_order.branch_id] }}</td>
+            <td>{{ new_order.check_out_date }}</td>
+            <td>{{ new_order.status }}</td>
+            <td><a href='{{ url_for("manager.edit_order", order_id=new_order.order_id) }}' class='btn btn-primary'>Edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h1>Active Orders</h1>
 <table class="table table-hover">
     <thead class="active tables">
         <th>Order Id</th>
@@ -17,16 +45,44 @@ Maintain Orders
         
     </thead>
     <tbody>
-        {% for order in order %}
+        {% for active_order in active_order %}
         <tr>
-            <td>{{ order.order_id }}</td>
-            <td>{{ asset_names[order.asset_id] }}</td>
-            <td>{{ asset_description[order.asset_id] }}</td>
-            <td>{{ order.username }}</td>
-            <td>{{ branch_names[order.branch_id] }}</td>
-            <td>{{ order.check_out_date }}</td>
-            <td>{{ order.status }}</td>
-            <td><a href='{{ url_for("manager.edit_order", order_id=order.order_id) }}' class='btn btn-primary'>Edit</a></td>
+            <td>{{ active_order.order_id }}</td>
+            <td>{{ asset_names[active_order.asset_id] }}</td>
+            <td>{{ asset_description[active_order.asset_id] }}</td>
+            <td>{{ active_order.username }}</td>
+            <td>{{ branch_names[active_order.branch_id] }}</td>
+            <td>{{ active_order.check_out_date }}</td>
+            <td>{{ active_order.status }}</td>
+            <td><a href='{{ url_for("manager.edit_order", order_id=active_order.order_id) }}' class='btn btn-primary'>Edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h1>Past Orders</h1>
+<table class="table table-hover">
+    <thead class="past tables">
+        <th>Order Id</th>
+        <th>Asset Name</th>
+        <th>Asset Description</th>
+        <th>Username</th>
+        <th>Branch</th>
+        <th>Date Placed</th>
+        <th>Status</th>
+        <th>Edit</th>
+        
+    </thead>
+    <tbody>
+        {% for past_order in past_order %}
+        <tr>
+            <td>{{ past_order.order_id }}</td>
+            <td>{{ asset_names[past_order.asset_id] }}</td>
+            <td>{{ asset_description[past_order.asset_id] }}</td>
+            <td>{{ past_order.username }}</td>
+            <td>{{ branch_names[past_order.branch_id] }}</td>
+            <td>{{ past_order.check_out_date }}</td>
+            <td>{{ past_order.status }}</td>
+            <td><a href='{{ url_for("manager.edit_order", order_id=past_order.order_id) }}' class='btn btn-primary'>Edit</a></td>
         </tr>
         {% endfor %}
     </tbody>
