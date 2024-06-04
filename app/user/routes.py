@@ -1,12 +1,10 @@
 from flask import render_template
 from app.user import bp
-
 from flask import current_app, flash, redirect, render_template, request, session, url_for
 from app.models.models import User, Branch
 from app.extensions import db, bcrypt
 from app.user.forms import RegisterForm, LoginForm
 from flask_login import current_user, login_required, login_user, logout_user
-from app.user import bp
 
 #Function to Login to Booker
 @bp.route('/', methods=['GET', 'POST'])
@@ -19,7 +17,7 @@ def login():
                 if bcrypt.check_password_hash( user.password, form.password.data):
                     session.permanent = True
 
-                    #rrun reset login function is password correct
+                    #run reset login function is password correct
                     reset_login_attempts(user)  
 
                     #If user authorised take them to the reservation page 
