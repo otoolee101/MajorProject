@@ -133,7 +133,7 @@ def test_editing_orders(client, app):
             assert order is not None
 
 """Test error handling of editing an order as a manager"""
-def test_edit_order_exceptionnn(client, monkeypatch):
+def test_edit_order_exception(client, monkeypatch):
     def mock_commit(*args, **kwargs):
         raise Exception("Database commit failed")
     response= client.post("/", data={"username": "manager", "password": "Assignment1/"}, follow_redirects=True)

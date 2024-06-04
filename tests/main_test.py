@@ -134,7 +134,7 @@ def test_view_order_history(client):
     
     response = client.get ("/order_history",follow_redirects=True)
     assert b'<td>Ship</td>' in response.data
-    assert b'<td>Order Placed</td>' in response.data        
+    assert b'<td>Order Placed</td>' in response.data  
 
 """Test error handling when viewing order history"""
 def test_error_viewing_order_history(client, monkeypatch):
@@ -145,7 +145,7 @@ def test_error_viewing_order_history(client, monkeypatch):
     monkeypatch.setattr(Order, 'query', FakeAssetsQuery)
     client.post("/", data={"username": "testuser", "password": "Assignment1/"}, follow_redirects=True)
     response = client.get ("/order_history",follow_redirects=True)
-    assert b'An error occurred retrieving assets.' in response.data
+    assert b'An error occurred retrieving orders.' in response.data
     
 """Test returning an asset"""
 def test_return_asset(client, app):
