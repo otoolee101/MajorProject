@@ -3,10 +3,8 @@ from logging.handlers import RotatingFileHandler
 import os
 from flask import Flask
 from flask_login import LoginManager
-
 from app.extensions import db
 from app.models.models import User
-
 from config import Config
 
 def create_app():

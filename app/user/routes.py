@@ -1,3 +1,4 @@
+from datetime import timedelta
 from flask import render_template
 from app.user import bp
 from flask import current_app, flash, redirect, render_template, request, session, url_for
@@ -6,7 +7,13 @@ from app.extensions import db, bcrypt
 from app.user.forms import RegisterForm, LoginForm
 from flask_login import current_user, login_required, login_user, logout_user
 
-#Function to Login to Booker
+#End session if no activity has occured within 60 seconds 
+@bp.before_app_request  
+def make_session_permanent():
+    session.permanent = True
+    current_app.permanent_session_lifetime = timedelta(seconds=60)
+
+#Function to Login to AssetHub 
 @bp.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -89,6 +96,7 @@ def register():
        
     return render_template('register.html', form=form)
 
+#User can udpate their own branch on their account. 
 @bp.route("/manage_account", methods=['POST', 'GET'])
 @login_required
 def manage_account():
@@ -116,7 +124,7 @@ def manage_account():
         return redirect(url_for('main.home'))
 
 
-#Function to log out of Booker
+#Function to log out of AssetHub
 @bp.route('/logout/', methods=['GET', 'POST'])
 @login_required
 def logout():

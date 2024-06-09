@@ -3,7 +3,7 @@ from flask import current_app, flash, redirect, render_template, request, url_fo
 from flask_login import current_user, login_required
 from app.manager import bp
 from app.extensions import db
-from app.models.models import Assets, Order, Branch
+from app.models.models import Assets, Cart, Order, Branch
 
 #Function to check the user role is admin or manager before they are allowed to access the function. 
 def check_is_manager(func):
@@ -199,4 +199,3 @@ def edit_order(order_id):
                            asset_names=asset_names, 
                            asset_description=asset_description,
                            branch_names=branch_names)
-

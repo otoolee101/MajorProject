@@ -3,7 +3,7 @@ from flask import current_app, flash, redirect, render_template, request, url_fo
 from flask_login import current_user, login_required
 from app.admin import bp
 from app.extensions import db
-from app.models.models import User, Branch
+from app.models.models import Cart, User, Branch
 
 
 #Function checks if user is of the role admin when attempting to access centain functions. 
@@ -172,7 +172,8 @@ def delete_branch():
         flash("Branch failed to delete.")
         current_app.logger.warning('Username: %s failed to deleted branch', current_user.username)
         return redirect(url_for("admin.maintain_branch"))
-    
+
+
 #Function to return logged messages
 @bp.route('/logging_messages')
 @login_required

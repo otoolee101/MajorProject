@@ -20,10 +20,10 @@ Return Asset
             <td>{{ return_asset.check_out_date }}</td>
             <td>{{ return_asset.status }}</td>
             <td>
-                <form method="post" action="/return_asset/">
+                <form method="post" action="/return_asset/" >
                     <input type="hidden" value="{{ return_asset.asset_id }}" name="asset_id">
                     <input type="hidden" value="{{ return_asset.order_id }}" name="order_id">
-                    <input type="submit" value="Return" class="btn btn-primary">
+                    <input type="submit" value="Return" class="btn btn-primary" onclick='return confirm("Are you sure you want return asset?")'>
                 </form>
             </td>
         </tr>
