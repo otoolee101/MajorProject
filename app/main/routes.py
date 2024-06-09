@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask import current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
+from sqlalchemy import or_
 from app.main import bp
 from app.models.models import Assets, Cart, Order
 from app.extensions import db
@@ -50,7 +51,12 @@ def return_asset():
 @login_required
 def borrow_asset():
     try: 
-        assets = Assets.query.filter(Assets.available == 'Y').all()
+        search_query = request.args.get('q')
+        if search_query:
+           assets = Assets.query.filter(Assets.available == 'Y').filter(or_(Assets.asset_name.ilike(f'%{search_query}%'), Assets.keyword.ilike(f'%{search_query}%'))).all()
+        else:
+            assets = Assets.query.filter(Assets.available == 'Y').all()
+
         current_app.logger.info('Username: %s accessed borrow assets', current_user.username)
         return render_template('borrow_asset.html', assets=assets)
     except Exception as e: 
@@ -76,6 +82,15 @@ def add_to_cart(asset_id):
             flash("Item failed to add.")
             current_app.logger.warning('Username: %s has a problem adding %s to their cart', current_user.username, add_item.asset_id)
             return redirect(url_for('main.home'))
+
+#Display how many items are in the cart
+@bp.context_processor
+def inject_cart_count():
+    if current_user.is_authenticated:
+        cart_count = Cart.query.filter_by(username=current_user.username).count()
+    else:
+        cart_count = 0
+    return dict(cart_count=cart_count)
 
 #Function to view all items in the cart. 
 @bp.route("/view_cart")
