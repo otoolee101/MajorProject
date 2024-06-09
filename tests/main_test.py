@@ -61,15 +61,22 @@ def test_viewing_cart(client):
     response = client.get ("/view_cart",follow_redirects=True)
     assert b'<td>Ship</td>' in response.data
 
+class FakeAssetsQuery:
+    @staticmethod
+    def filter_by(*args, **kwargs):
+        if 'username' in kwargs:
+            class FakeQuery:
+                def count(self):
+                    return 1
+            return FakeQuery()
+        else:
+            return None
+
 """Test error handling when viewing cart"""
-def test_error_viewing_cart(client, monkeypatch):
-    class FakeAssetsQuery:
-        @staticmethod
-        def filter(*args, **kwargs):
-            raise Exception("Database query failed")
+def test_error_viewing_cartt(client, monkeypatch):
     monkeypatch.setattr(Cart, 'query', FakeAssetsQuery)
     client.post("/", data={"username": "testuser", "password": "Assignment1/"}, follow_redirects=True)
-    response = client.get ("/view_cart",follow_redirects=True)
+    response = client.get("/view_cart", follow_redirects=True)
     assert b'An error occurred retrieving assets.' in response.data
 
 """Test checking out cart and creating an order."""

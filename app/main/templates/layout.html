@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!--Creating a boarder around the web page -->
+        <!--Creating a border around the web page -->
         <style>
             body{
                 padding: 8px 5px 8px 5px;
@@ -25,7 +25,12 @@
 
         <div class="navbar">
             <a  href="{{ url_for('main.home') }}" class="navbar-item">&nbsp;&#8962; Home</a>
-            <a  href="{{ url_for('main.view_cart') }}" class="navbar-item">&nbsp;&#128722; Cart</a>
+            <a  href="{{ url_for('main.view_cart') }}" class="navbar-item">&nbsp;&#128722; Cart &ensp;
+                {% set cart_count = cart_count if cart_count is defined else 0 %}
+                {% if cart_count > 0 %}
+                <span class="cart-count">{{ cart_count }}</span>
+                {% endif %}
+            </a>
             <div class="dropdown">
                 <a class="navbar-item dropdown-arrow" >Account Options</a>
                 <div class="dropdown-content">
