@@ -7,13 +7,13 @@ Edit Asset
     <form method='post' action='/edit_asset/{{edit.asset_id}}' >
             <label>Asset Name:</label>
             <br>
-            <input type='text' name='asset_name' size="10" required value='{{edit.asset_name}}' class='form-control'>
+            <input type='text' name='asset_name' size="10" required value='{{edit.asset_name}}' class='form-control' oninput="this.value=this.value.replace(/[^a-zA-Z0-9 ]/g, '')">
             <label>Asset Description:</label>
             <br>
-            <input type='text' name='asset_description' size="10"  value='{{edit.asset_description}}'class='form-control'>
+            <input type='text' name='asset_description' size="10"  value='{{edit.asset_description}}'class='form-control' oninput="this.value=this.value.replace(/[^a-zA-Z0-9 ]/g, '')">
             <label>Asset Keywords:</label>
             <br>
-            <input type='text' name='keyword' size="10" required value='{{edit.keyword}}' class='form-control'>
+            <input type='text' name='keyword' size="10" required value='{{edit.keyword}}' class='form-control' oninput="this.value=this.value.replace(/[^a-zA-Z0-9 ]/g, '')">
             <p></p>
             <label>Available</label>
             <br>
