@@ -1,2 +1,60 @@
-2024-06-09 21:12:17 - INFO - Username: admin logged in successfully
-2024-06-09 21:13:26 - INFO - Username: admin logged in successfully
+2024-06-19 16:22:43 - INFO - Username: manager accessed maintain orders
+2024-06-19 16:22:45 - INFO - Username: manager accessed edit order 4
+2024-06-19 16:22:48 - INFO - Username: manager accessed edit order 4
+2024-06-19 16:22:48 - INFO - Username: manager edited order 4
+2024-06-19 16:22:48 - INFO - Username: manager accessed maintain orders
+2024-06-19 16:22:59 - INFO - Username: manager logged out
+2024-06-19 16:23:15 - INFO - Username: user logged in successfully
+2024-06-19 16:23:17 - INFO - Username: user viewed their order history
+2024-06-19 16:23:28 - INFO - Username: user returned asset 9
+2024-06-19 16:23:39 - INFO - Username: user logged out
+2024-06-19 16:23:46 - WARNING - Username: manager has a failed login attempt
+2024-06-19 16:23:51 - INFO - Username: manager logged in successfully
+2024-06-19 16:23:55 - INFO - Username: manager accessed maintain assets
+2024-06-19 16:23:58 - INFO - Username: manager accessed asset 1 history
+2024-06-19 16:23:59 - INFO - Username: manager accessed maintain assets
+2024-06-19 16:24:03 - INFO - Username: manager accessed asset 9 history
+2024-06-19 16:24:08 - INFO - Username: manager accessed maintain assets
+2024-06-19 16:24:15 - INFO - Username: manager accessed asset 2 history
+2024-06-19 16:24:18 - INFO - Username: manager accessed maintain assets
+2024-06-19 16:24:25 - INFO - Username: manager logged out
+2024-06-19 16:25:05 - WARNING - Username: user has a failed login attempt
+2024-06-19 16:25:16 - INFO - Username: user logged in successfully
+2024-06-19 16:25:57 - INFO - Username: user accessed borrow assets
+2024-06-19 16:26:02 - INFO - Username: user accessed borrow assets
+2024-06-19 16:26:06 - INFO - Username: user accessed borrow assets
+2024-06-19 16:26:11 - INFO - Username: user added 1 to their cart
+2024-06-19 16:26:11 - INFO - Username: user accessed borrow assets
+2024-06-19 16:26:15 - INFO - Username: user added 3 to their cart
+2024-06-19 16:26:15 - INFO - Username: user accessed borrow assets
+2024-06-19 16:26:17 - INFO - Username: user viewed their cart
+2024-06-19 16:26:20 - INFO - Username: user removed asset 3 from their cart
+2024-06-19 16:26:20 - INFO - Username: user viewed their cart
+2024-06-19 16:26:22 - INFO - Username: user checked out their cart
+2024-06-19 16:26:24 - INFO - Username: user viewed their cart
+2024-06-19 16:26:31 - INFO - Username: user viewed their order history
+2024-06-19 16:26:44 - INFO - Username: user logged out
+2024-06-19 16:26:50 - INFO - Username: manager logged in successfully
+2024-06-19 16:26:53 - INFO - Username: manager accessed maintain orders
+2024-06-19 16:27:03 - INFO - Username: manager accessed edit order 5
+2024-06-19 16:27:10 - INFO - Username: manager accessed edit order 5
+2024-06-19 16:27:10 - INFO - Username: manager edited order 5
+2024-06-19 16:27:10 - INFO - Username: manager accessed maintain orders
+2024-06-19 16:27:37 - INFO - Username: manager accessed maintain assets
+2024-06-19 16:29:04 - WARNING - Username: manager has a failed login attempt
+2024-06-19 16:29:12 - INFO - Username: manager logged in successfully
+2024-06-19 16:29:30 - INFO - Username: manager accessed maintain assets
+2024-06-19 16:29:31 - INFO - Username: manager accessed asset 2 history
+2024-06-19 16:29:41 - INFO - Username: manager accessed maintain assets
+2024-06-19 16:29:45 - INFO - Username: manager accessed asset 9 history
+2024-06-19 16:29:50 - INFO - Username: manager accessed maintain assets
+2024-06-19 16:30:21 - INFO - Username: manager logged out
+2024-06-19 16:30:28 - WARNING - Username: admin has a failed login attempt
+2024-06-19 16:30:33 - INFO - Username: admin logged in successfully
+2024-06-19 16:30:37 - INFO - Username: admin access maintain users
+2024-06-19 16:30:39 - INFO - Username: admin accessed maintain branches
+2024-06-19 16:31:16 - INFO - Username: admin logged out
+2024-06-19 16:32:04 - WARNING - Username: user has a failed login attempt
+2024-06-19 16:32:15 - INFO - Username: user logged in successfully
+2024-06-19 16:32:32 - CRITICAL - Username: user accessed attempted to access maintain_user
+2024-06-19 16:32:37 - INFO - Username: user logged out
