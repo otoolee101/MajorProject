@@ -29,8 +29,5 @@ class ProductionConfig:
     TEMPLATES_AUTO_RELOAD = True
     SECRET_KEY = b'_5#y2L"F4Q8z\n\xec]/'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') \
-        or 'postgresql://otoolee101:j6tcxzxYpBjfNsul66quUX6QaTqYYWFp@dpg-cngfn7v79t8c73839qr0-a/postgresql_booker_assignment'
+        or 'postgresql://major_project_database_2ech_user:rvDP9cS5v15s3jAE08CKKoet55JLlo9L@dpg-cq43uv5ds78s73ceoso0-a.oregon-postgres.render.com/major_project_database_2ech'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-
-    #postgressql://otoolee101:j6tcxzxYpBjfNsul66quUX6QaTqYYWFp@dpg-cngfn7v79t8c73839qr0-a/postgresql_booker_assignment

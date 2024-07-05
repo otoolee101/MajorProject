@@ -42,4 +42,3 @@ coverage run -m pytest
 
 To see coverage report run the following into the terminal: 
 coverage report -m
-
