@@ -53,7 +53,7 @@ jobs:
           service-id: ${{ secrets.MASTER_SERVICE_ID }}
           api-key: ${{ secrets.MP_MASTER_API_KEY }}
           PROD_APP_SETTINGS: ${{ secrets.MASTER_APP_SETTINGS }}
-          #DATABASE_URI: ${{ secrets.DATABASE_URL }}
+          DATABASE_URI: ${{ secrets.DATABASE_URL }}
           wait-for-success: true
 
   deploy_development:
